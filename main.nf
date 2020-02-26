@@ -31,7 +31,6 @@ results  : $params.results
  *  Parse the input parameters
  */
 
-genome_path     = path(params.genomedir)
 reads_ch        = Channel.fromFilePairs(params.reads)
 
 
@@ -45,7 +44,7 @@ process '1A_prepare_bisulfite_genome' {
   tag "$genome.baseName"
  
   input: 
-      path genome from genome_path
+      path genome from genomedir
   
   script:
   """
