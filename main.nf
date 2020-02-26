@@ -44,7 +44,7 @@ process '1A_prepare_bisulfite_genome' {
   tag "$genome.baseName"
  
   input: 
-      path genome from genomedir
+      path genome from $params.genomedir
   
   script:
   """
