@@ -13,10 +13,11 @@
  * Define the default parameters
  */ 
  
-params.genomedir     = "$baseDir/data/"
-params.numet      = "~/software/NuMetRRBS/trimRRBSdiversityAdaptCustomers.py"
-params.reads      = "$baseDir/data/reads/rep1_{1,2}.fq.gz"
-params.results    = "results"
+params.genomedir  = "$baseDir/data/"
+params.numet      = "/home/ubuntu/software/NuMetRRBS/trimRRBSdiversityAdaptCustomers.py"
+params.reads      = "$baseDir/data/sample_R{1,2}.fq.gz"
+params.outdir     = "results"
+params.aligner    = "bismark_hisat"
 
 log.info """\
 R R B S -  N F    v 1.0 
@@ -24,33 +25,286 @@ R R B S -  N F    v 1.0
 genomedir: $params.genomedir
 numet    : $params.numet
 reads    : $params.reads
-results  : $params.results
+outdir   : $params.outdir
 """
 
 /*
  *  Parse the input parameters
  */
 
-reads_ch        = Channel.fromFilePairs(params.reads)
+genomedir       = file(params.genomedir)
+
+
+/*
+ * PART 0: Preparation 
+ */
+process '0A_get_software_versions' {
+    publishDir "${params.outdir}/pipeline_info", mode: 'copy'
+
+    output:
+    file '*.txt'
+
+    script:
+    """
+    echo "$workflow.manifest.version" &> v_ngi_methylseq.txt
+    echo "$workflow.nextflow.version" &> v_nextflow.txt
+    bismark_genome_preparation --version &> v_bismark_genome_preparation.txt
+    fastqc --version &> v_fastqc.txt
+    cutadapt --version &> v_cutadapt.txt
+    trim_galore --version &> v_trim_galore.txt
+    bismark --version &> v_bismark.txt
+    deduplicate_bismark --version &> v_deduplicate_bismark.txt
+    bismark_methylation_extractor --version &> v_bismark_methylation_extractor.txt
+    bismark2report --version &> v_bismark2report.txt
+    bismark2summary --version &> v_bismark2summary.txt
+    samtools --version &> v_samtools.txt
+    hisat2 --version &> v_hisat2.txt
+    # bwa &> v_bwa.txt 2>&1 || true
+    # bwameth.py --version &> v_bwameth.txt
+    # picard MarkDuplicates --version &> v_picard_markdups.txt 2>&1 || true
+    # MethylDackel --version &> v_methyldackel.txt
+    # qualimap --version &> v_qualimap.txt || true
+    # preseq &> v_preseq.txt
+    multiqc --version &> v_multiqc.txt
+    # scrape_software_versions.py &> software_versions_mqc.yaml
+    """
+}
+
+/*
+ * Create a channel for input read files
+ */
+Channel
+        .fromFilePairs( params.reads, size: params.single_end ? 1 : 2 )
+        .ifEmpty { exit 1, "Cannot find any reads matching: ${params.reads}\nNB: Path needs to be enclosed in quotes!\nIf this is single-end data, please specify --single_end on the command line." }
+        .into { raw_reads_fastqc_ch; raw_reads_trim_ch }
 
 
 /**********
- * PART 1: Data preparation
+ * PART 1: Preprocessing
+ * 
+ * Process 1A: fastqc report for raw data
+ */
+process '1A_pre_fastqc' {
+    tag "$name"
+    label 'big'
+    publishDir "${params.outdir}/fastqc", mode: 'copy',
+        saveAs: { filename ->
+                      filename.indexOf(".zip") > 0 ? "zips/$filename" : "$filename"
+                }
+
+    input:
+    set val(name), file(reads) from raw_reads_fastqc_ch
+
+    output:
+    file '*_fastqc.{zip,html}' into ch_fastqc_results_for_multiqc
+
+    script:
+    """
+    fastqc --quiet --threads ${task.cpus} $reads
+    """
+}
+
+
+/*
+ * Process 1B: 2-step triming for NuGen RRBS data
+ */
+process '1B_trim' {
+    tag "$name"
+    label 'big'
+    publishDir "${params.outdir}/trim"
+
+    input:
+    set val(name), file(reads) from raw_reads_trim_ch
+
+    output:
+    set val(name), file('*.fq_trimmed.fq.gz') into clean_reads_bismark_ch, clean_reads_fastqc_ch
+    file('*report.txt') into ch_trimgalore_results_for_multiqc
+    file('*.log')
+
+    script:
+
+    if( params.single_end ) {
+            """
+            trim_galore -a AGATCGGAAGAGC $reads --cores ${task.cpus}
+            
+            python2 ${params.numet} -1 ${reads.simpleName}_trimmed.fq.gz &> ${reads.simpleName}_trimpy.log
+            """
+        } else {
+            """
+            trim_galore -a AGATCGGAAGAGC -a2 AAATCAAAAAAAC \\
+            --paired $reads --cores ${task.cpus}
+            
+            python2 ${params.numet} -1 ${reads[0].simpleName}_val_1.fq.gz \\
+            -2 ${reads[1].simpleName}_val_2.fq.gz &> ${name}_trimpy.log
+            """
+        }
+}
+
+/**********
+ * Process 1C: fastqc report for trimmed data
+ */
+process '1C_post_fastqc' {
+    tag "$name"
+    label 'big'
+    publishDir "${params.outdir}/fastqc2", mode: 'copy',
+        saveAs: { filename ->
+                      filename.indexOf(".zip") > 0 ? "zips/$filename" : "$filename"
+                }
+
+    input:
+    set val(name), file(reads) from clean_reads_fastqc_ch
+
+    output:
+    file '*_fastqc.{zip,html}' into ch_fastqc2_results_for_multiqc
+
+    script:
+    """
+    fastqc --quiet --threads ${task.cpus} $reads
+    """
+}
+
+
+/**********
+ * PART 2: Bismark
  *
- * Process 1A: Create a bisulfite converted genome index (.fai) with bismark
+ * Process 2A: Create a bisulfite converted genome index (.fai) with bismark
  */
 
-process '1A_prepare_bisulfite_genome' { 
+process '2A_prepare_bisulfite_genome' { 
   tag "$genome.baseName"
+  label 'bismark'
  
   input: 
-      path genome from genomedir
-  
+      file genome from genomedir
+  output: 
+      file 'bismarkindex' into genome_dir_ch  
+
   script:
+  aligner = params.aligner == 'bismark_hisat' ? '--hisat2' : '--bowtie2'
   """
-  bismark_genome_preparation --hisat2 --verbose $genome
+  mkdir bismarkindex
+  cp ${genome}/*.fa* bismarkindex/
+  bismark_genome_preparation $aligner --verbose bismarkindex
   """
 }
 
- 
- 
+
+
+/**********
+ * Process 2B: Align RRBS reads to the genome
+ */
+
+process '2B_mapping_bismark' {
+  tag "$name"
+  label 'bismark'
+  publishDir "${params.outdir}/bismark_align"
+
+  input:
+      file genomeDir from genome_dir_ch
+      set val(name), file(reads) from clean_reads_bismark_ch 
+
+  output: 
+      set val(name), file('*.bam') into aligned_bam_ch, ch_bam_for_bismark_summary
+      set val(name), file('*report.txt') into ch_bismark_align_log_for_multiqc, ch_bismark_align_log_for_bismark_report, ch_bismark_align_log_for_bismark_summary
+
+  script:
+  // Paired-end or single end input files
+  input = params.single_end ? reads : "-1 ${reads[0]} -2 ${reads[1]}"
+
+  // Choice of read aligner
+  aligner = params.aligner == "bismark_hisat" ? "--hisat2" : "--bowtie2"    
+  hisat2 = params.aligner == "bismark_hisat" ? "--no-spliced-alignment" : ""
+  """
+  # echo $input
+  bismark --genome $genomeDir \\
+       $aligner $hisat2 \\
+       --multicore ${task.cpus} \\
+       $input
+  """
+}
+
+
+
+/***********
+ * Process 2C: - Bismark methylation extraction
+ */
+process '2C_bismark_methXtract' {
+    tag "$name"
+    label 'bismark'
+    publishDir "${params.outdir}/bismark_methylation", mode: 'copy'
+
+    input:
+    set val(name), file(bam) from aligned_bam_ch
+
+    output:
+    set val(name), file("*splitting_report.txt") into ch_bismark_splitting_report_for_bismark_report, ch_bismark_splitting_report_for_multiqc, ch_bismark_splitting_report_for_bismark_summary
+    set val(name), file("*.M-bias.txt") into ch_bismark_mbias_for_bismark_report, ch_bismark_mbias_for_multiqc, ch_bismark_mbias_for_bismark_summary
+    file("*.cov.gz") into coverage_bismark_ch
+    file '*.{png,gz}'
+    
+    script:
+    // cytosine_report = params.cytosine_report ? "--cytosine_report --genome_folder ${index} " : ''
+    
+    """
+    bismark_methylation_extractor --comprehensive --merge_non_CpG \\
+    --multicore ${task.cpus} \\
+    --cytosine_report --genome_folder $genomedir \\
+    --ample_memory \\
+    --no_overlap \\
+    --bedGraph \\
+    --gzip \\
+    --report \\
+    $bam
+    """
+}
+
+ch_bismark_align_log_for_bismark_report
+  .join(ch_bismark_splitting_report_for_bismark_report)
+  .join(ch_bismark_mbias_for_bismark_report)
+  .set{ ch_bismark_logs_for_bismark_report }
+
+
+
+/*
+ * Process 2D: Bismark Sample Report
+ */
+process '2D_bismark_report' {
+    tag "$name"
+    publishDir "${params.outdir}/bismark_reports", mode: 'copy'
+
+    input:
+    set val(name), file(align_log), file(splitting_report), file(mbias) from ch_bismark_logs_for_bismark_report
+
+    output:
+    file '*{html,txt}' into ch_bismark_reports_results_for_multiqc
+
+    script:
+    """
+    bismark2report \\
+        --alignment_report $align_log \\
+        --splitting_report $splitting_report \\
+        --mbias_report $mbias
+    """
+}
+
+
+/*
+ * Process 2E - Bismark Summary Report
+ */
+process '2E_bismark_summary' {
+    publishDir "${params.outdir}/bismark_summary", mode: 'copy'
+
+    input:
+    file ('*') from ch_bam_for_bismark_summary.collect()
+    file ('*') from ch_bismark_align_log_for_bismark_summary.collect()
+    file ('*') from ch_bismark_splitting_report_for_bismark_summary.collect()
+    file ('*') from ch_bismark_mbias_for_bismark_summary.collect()
+
+    output:
+    file '*{html,txt}' into ch_bismark_summary_results_for_multiqc
+
+    script:
+    """
+    bismark2summary
+    """
+}
