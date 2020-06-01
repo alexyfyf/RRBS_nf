@@ -1,7 +1,0 @@
-2020-06-01 04:28:09	2m 25s	distraught_mendel	OK	c73fd83f2c120b6508f36570e62a4889	40afc830-f02d-4805-b79a-da6cff94e1e5	nextflow main.nf --reads '/Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz' -resume
-2020-06-01 04:32:04	-	mighty_turing	-	24e4020488db850d7e67c7fd56ac8d3d	40afc830-f02d-4805-b79a-da6cff94e1e5	nextflow main.nf --reads '/Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz' -resume
-2020-06-01 04:33:00	6.1s	sleepy_ride	ERR	62e24b2de2667db87142a06c30f50831	40afc830-f02d-4805-b79a-da6cff94e1e5	nextflow main.nf --reads '/Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz' -resume
-2020-06-01 04:35:21	1.5s	big_panini	OK	6be047341ace342844d98249f441a9c5	40afc830-f02d-4805-b79a-da6cff94e1e5	nextflow main.nf --reads '/Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz' -resume
-2020-06-01 04:37:56	5s	hopeful_franklin	OK	70f8622de007ef75958ab79a5ad7682e	40afc830-f02d-4805-b79a-da6cff94e1e5	nextflow main.nf --reads '/Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz' -resume
-2020-06-01 04:39:31	1.5s	nostalgic_sammet	OK	70f8622de007ef75958ab79a5ad7682e	40afc830-f02d-4805-b79a-da6cff94e1e5	nextflow main.nf --reads '/Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz' -resume -with-dag flowchart.html
-2020-06-01 04:40:21	1.6s	nasty_gutenberg	OK	70f8622de007ef75958ab79a5ad7682e	40afc830-f02d-4805-b79a-da6cff94e1e5	nextflow main.nf --reads '/Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz' -resume -with-dag flowchart.html

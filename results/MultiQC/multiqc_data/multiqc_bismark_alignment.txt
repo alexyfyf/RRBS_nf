@@ -1,2 +1,0 @@
-Sample	aligned_reads	ambig_reads	discarded_reads	meth_chg	meth_chh	meth_cpg	no_alignments	percent_aligned	percent_chg_meth	percent_chh_meth	percent_cpg_meth	strand_ctob	strand_ctot	strand_directional	strand_ob	strand_ot	total_c	total_reads	unmeth_chg	unmeth_chh	unmeth_cpg
-sample_R1_val_1	39.0	9.0	0.0	3.0	2.0	82.0	89742.0	0.04343468092215169	1.1	0.3	24.1	0.0	0.0	directional	10.0	29.0	1187.0	89790.0	260.0	582.0	258.0

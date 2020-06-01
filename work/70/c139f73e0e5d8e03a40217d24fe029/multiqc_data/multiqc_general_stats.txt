@@ -1,5 +1,0 @@
-Sample	Cutadapt_mqc-generalstats-cutadapt-percent_trimmed	FastQC_mqc-generalstats-fastqc-percent_duplicates	FastQC_mqc-generalstats-fastqc-percent_gc	FastQC_mqc-generalstats-fastqc-avg_sequence_length	FastQC_mqc-generalstats-fastqc-percent_fails	FastQC_mqc-generalstats-fastqc-total_sequences	Bismark_mqc-generalstats-bismark-percent_cpg_meth	Bismark_mqc-generalstats-bismark-total_c	Bismark_mqc-generalstats-bismark-aligned_reads	Bismark_mqc-generalstats-bismark-percent_aligned
-sample_R1	6.669597660168633	9.087000000000003	32.0	77.90305	18.181818181818183	100000.0				
-sample_R1_val_1		11.346475108586702	31.0	64.76694509410848	18.181818181818183	89790.0	22.6	775.0	39.0	0.04343468092215169
-sample_R2	11.176346153846154	9.344999999999999	31.0	78.0	18.181818181818183	100000.0				
-sample_R2_val_2		11.554738835059581	28.0	61.071032408954224	18.181818181818183	89790.0				

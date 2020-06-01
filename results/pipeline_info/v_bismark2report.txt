@@ -1,9 +1,0 @@
-
-
-                              Bismark HTML Report Module
-
-                         bismark2report version: v0.22.3
-                     Copyright 2010-19 Felix Krueger, Babraham Bioinformatics
-                       www.bioinformatics.babraham.ac.uk/projects/bismark/
-                            https://github.com/FelixKrueger/Bismark
-	
