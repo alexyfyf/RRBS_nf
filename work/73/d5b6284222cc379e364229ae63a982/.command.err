@@ -1,0 +1,12 @@
+[WARNING]         multiqc : MultiQC Version v1.9 now available!
+[INFO   ]         multiqc : This is MultiQC v1.8
+[INFO   ]         multiqc : Template    : default
+[INFO   ]         multiqc : Searching   : /Myvolume/fyan0011/GitHub/RRBS_nf/work/73/d5b6284222cc379e364229ae63a982
+[INFO   ]         bismark : Found 1 bismark alignment reports
+[INFO   ]         bismark : Found 1 bismark methextract reports
+[INFO   ]        cutadapt : Found 2 reports
+[INFO   ]          fastqc : Found 4 reports
+[INFO   ]         multiqc : Compressing plot data
+[INFO   ]         multiqc : Report      : multiqc_report.html
+[INFO   ]         multiqc : Data        : multiqc_data
+[INFO   ]         multiqc : MultiQC complete

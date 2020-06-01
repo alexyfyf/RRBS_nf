@@ -1,0 +1,10 @@
+No Bismark/Bowtie2 single-end BAM files detected
+No Bismark/Bowtie2 paired-end BAM files detected
+No Bismark/HISAT2 single-end BAM files detected
+Found Bismark/HISAT2 paired-end files
+Generating Bismark summary report from 1 Bismark BAM file(s)...
+>> Reading from Bismark report: sample_R1_val_1.fq_trimmed_bismark_hisat2_PE_report.txt
+No deduplication report present, skipping...
+
+Wrote Bismark project summary to >> bismark_summary_report.html <<
+

@@ -1,0 +1,21 @@
+
+Writing Bismark HTML report to >> sample_R1_val_1.fq_trimmed_bismark_hisat2_PE_report.html <<
+
+==============================================================================================================
+Using the following alignment report:		> sample_R1_val_1.fq_trimmed_bismark_hisat2_PE_report.txt <
+Processing alignment report sample_R1_val_1.fq_trimmed_bismark_hisat2_PE_report.txt ...
+Complete
+
+No deduplication report file specified, skipping this step
+Using the following splitting report:		> sample_R1_val_1.fq_trimmed_bismark_hisat2_pe_splitting_report.txt <
+Processing splitting report sample_R1_val_1.fq_trimmed_bismark_hisat2_pe_splitting_report.txt ...
+Complete
+
+Using the following M-bias report:		> sample_R1_val_1.fq_trimmed_bismark_hisat2_pe.M-bias.txt <
+Processing M-bias report sample_R1_val_1.fq_trimmed_bismark_hisat2_pe.M-bias.txt ...
+Complete
+
+No nucleotide coverage report file specified, skipping this step
+==============================================================================================================
+
+

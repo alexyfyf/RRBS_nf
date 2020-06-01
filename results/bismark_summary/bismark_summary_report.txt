@@ -1,0 +1,2 @@
+File	Total Reads	Aligned Reads	Unaligned Reads	Ambiguously Aligned Reads	No Genomic Sequence	Duplicate Reads (removed)	Unique Reads (remaining)	Total Cs	Methylated CpGs	Unmethylated CpGs	Methylated chgs	Unmethylated chgs	Methylated CHHs	Unmethylated CHHs
+sample_R1_val_1.fq_trimmed_bismark_hisat2_pe.bam	89790	39	89742	9	0			775	53	182	3	177	1	359

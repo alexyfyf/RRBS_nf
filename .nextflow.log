@@ -1,0 +1,73 @@
+Jun-01 04:40:20.477 [main] DEBUG nextflow.cli.Launcher - $> nextflow main.nf --reads '/Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz' -resume -with-dag flowchart.html
+Jun-01 04:40:20.601 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 20.04.1
+Jun-01 04:40:20.616 [main] INFO  nextflow.cli.CmdRun - Launching `main.nf` [nasty_gutenberg] - revision: 70f8622de0
+Jun-01 04:40:20.639 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /Myvolume/fyan0011/GitHub/RRBS_nf/nextflow.config
+Jun-01 04:40:20.640 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Myvolume/fyan0011/GitHub/RRBS_nf/nextflow.config
+Jun-01 04:40:20.668 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Jun-01 04:40:21.260 [main] DEBUG nextflow.Session - Session uuid: 40afc830-f02d-4805-b79a-da6cff94e1e5
+Jun-01 04:40:21.260 [main] DEBUG nextflow.Session - Run name: nasty_gutenberg
+Jun-01 04:40:21.261 [main] DEBUG nextflow.Session - Executor pool size: 12
+Jun-01 04:40:21.272 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 20.04.1 build 5335
+  Created: 03-05-2020 19:37 UTC 
+  System: Linux 4.15.0-20-generic
+  Runtime: Groovy 2.5.8 on OpenJDK 64-Bit Server VM 1.8.0_152-release-1056-b12
+  Encoding: UTF-8 (UTF-8)
+  Process: 10991@general [127.0.1.1]
+  CPUs: 12 - Mem: 47.2 GB (12.4 GB) - Swap: 0 (0)
+Jun-01 04:40:21.303 [main] DEBUG nextflow.Session - Work-dir: /Myvolume/fyan0011/GitHub/RRBS_nf/work [ext2/ext3]
+Jun-01 04:40:21.304 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /Myvolume/fyan0011/GitHub/RRBS_nf/bin
+Jun-01 04:40:21.327 [main] DEBUG nextflow.Session - Observer factory: TowerFactory
+Jun-01 04:40:21.329 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Jun-01 04:40:21.585 [main] DEBUG nextflow.Session - Session start invoked
+Jun-01 04:40:21.870 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Jun-01 04:40:21.878 [main] DEBUG nextflow.Session - Workflow process names [dsl1]: 1B_trim, 1C_post_fastqc, 1A_pre_fastqc, 2A_prepare_bisulfite_genome, 2D_bismark_report, 0A_get_software_versions, 2C_bismark_methXtract, 3A_multiqc, 2E_bismark_summary, 2B_mapping_bismark
+Jun-01 04:40:21.886 [main] INFO  nextflow.Nextflow - R R B S -  N F    v 1.0 
+================================
+genomedir: /Myvolume/fyan0011/GitHub/RRBS_nf/data/
+numet    : /home/ubuntu/software/NuMetRRBS/trimRRBSdiversityAdaptCustomers.py
+reads    : /Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz
+outdir   : results
+
+Jun-01 04:40:21.985 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:40:21.986 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:40:21.991 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Jun-01 04:40:21.997 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=12; memory=47.2 GB; capacity=12; pollInterval=100ms; dumpInterval=5m
+Jun-01 04:40:22.111 [main] WARN  nextflow.script.ScriptBinding - Access to undefined parameter `single_end` -- Initialise it to a default value eg. `params.single_end = some_value`
+Jun-01 04:40:22.127 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /Myvolume/fyan0011/GitHub/RRBS_nf/data/; pattern: *R{1,2}.fq.gz; options: [:]
+Jun-01 04:40:22.191 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:40:22.191 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:40:22.205 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:40:22.205 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:40:22.215 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:40:22.215 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:40:22.220 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:40:22.220 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:40:22.229 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:40:22.230 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:40:22.238 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:40:22.238 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:40:22.254 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:40:22.255 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:40:22.269 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:40:22.269 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:40:22.279 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:40:22.279 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:40:22.284 [main] DEBUG nextflow.script.ScriptRunner - > Await termination 
+Jun-01 04:40:22.284 [main] DEBUG nextflow.Session - Session await
+Jun-01 04:40:22.313 [Actor Thread 3] INFO  nextflow.processor.TaskProcessor - [1e/f9f2aa] Cached process > 0A_get_software_versions
+Jun-01 04:40:22.313 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [b4/c9bf91] Cached process > 1A_pre_fastqc (sample)
+Jun-01 04:40:22.313 [Actor Thread 9] INFO  nextflow.processor.TaskProcessor - [fe/b6fcb1] Cached process > 2A_prepare_bisulfite_genome (data)
+Jun-01 04:40:22.315 [Actor Thread 7] INFO  nextflow.processor.TaskProcessor - [6a/d83a28] Cached process > 1B_trim (sample)
+Jun-01 04:40:22.340 [Actor Thread 9] INFO  nextflow.processor.TaskProcessor - [51/77a8df] Cached process > 1C_post_fastqc (sample)
+Jun-01 04:40:22.343 [Actor Thread 3] DEBUG n.util.BlockingThreadExecutorFactory - Thread pool name=FileTransfer; maxThreads=36; maxQueueSize=108; keepAlive=1m
+Jun-01 04:40:22.375 [Actor Thread 8] INFO  nextflow.processor.TaskProcessor - [07/18b28c] Cached process > 2B_mapping_bismark (sample)
+Jun-01 04:40:22.385 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [21/20e766] Cached process > 2C_bismark_methXtract (sample)
+Jun-01 04:40:22.412 [Actor Thread 7] INFO  nextflow.processor.TaskProcessor - [3b/bf36cb] Cached process > 2D_bismark_report (sample)
+Jun-01 04:40:22.422 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [f0/8087ec] Cached process > 2E_bismark_summary
+Jun-01 04:40:22.427 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [70/c139f7] Cached process > 3A_multiqc
+Jun-01 04:40:22.430 [main] DEBUG nextflow.Session - Session await > all process finished
+Jun-01 04:40:22.506 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Jun-01 04:40:22.520 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=10; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=0ms; cachedDuration=19m 24s;loadCpus=0; loadMemory=0; peakRunning=0; peakCpus=0; peakMemory=0; ]
+Jun-01 04:40:22.631 [main] DEBUG nextflow.CacheDB - Closing CacheDB done
+Jun-01 04:40:22.641 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

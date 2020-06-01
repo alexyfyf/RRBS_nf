@@ -1,0 +1,1 @@
+/Myvolume/fyan0011/GitHub/RRBS_nf/work/21/20e76627007f43b907a7ad582dc5d3/sample_R1_val_1.fq_trimmed_bismark_hisat2_pe_splitting_report.txt

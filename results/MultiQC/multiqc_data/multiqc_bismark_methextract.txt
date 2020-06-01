@@ -1,0 +1,2 @@
+Sample	meth_chg	meth_chh	meth_cpg	percent_cpg_meth	total_c	unmeth_chg	unmeth_chh	unmeth_cpg
+sample_R1_val_1	3.0	1.0	53.0	22.6	775.0	177.0	359.0	182.0

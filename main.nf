@@ -2,7 +2,7 @@
  * 'RRBS_nf' - A Nextflow pipeline for RRBS data analysis
  * 
  * This pipeline deals with RRBS data from NuGen Ovation library 
- * input is BCL files or Run folder, or reads
+ * input is reads in FASTQ format
  * 
  * Feng Yan
  * feng.yan@monash.edu
@@ -276,7 +276,7 @@ process '2D_bismark_report' {
     set val(name), file(align_log), file(splitting_report), file(mbias) from ch_bismark_logs_for_bismark_report
 
     output:
-    file '*{html,txt}' into ch_bismark_reports_results_for_multiqc
+    file '*{html,txt}' 
 
     script:
     """
@@ -301,10 +301,44 @@ process '2E_bismark_summary' {
     file ('*') from ch_bismark_mbias_for_bismark_summary.collect()
 
     output:
-    file '*{html,txt}' into ch_bismark_summary_results_for_multiqc
+    file '*{html,txt}' 
 
     script:
     """
     bismark2summary
     """
 }
+
+/**********
+ * PART 3: Summary
+ * 
+ * Process 3A: MultiQC
+ */
+process '3A_multiqc' {
+    publishDir "${params.outdir}/MultiQC", mode: 'copy'
+
+    input:
+    file ('fastqc/*') from ch_fastqc_results_for_multiqc.collect().ifEmpty([])
+    file ('fastqc2/*') from ch_fastqc2_results_for_multiqc.collect().ifEmpty([])
+    file ('trim/*') from ch_trimgalore_results_for_multiqc.collect().ifEmpty([])
+    file ('bismark_align/*') from ch_bismark_align_log_for_multiqc.collect().ifEmpty([])
+    file ('bismark_methylation/*') from ch_bismark_splitting_report_for_multiqc.collect().ifEmpty([])
+    file ('bismark_methylation/*') from ch_bismark_mbias_for_multiqc.collect().ifEmpty([])
+
+    output:
+    file "*multiqc_report.html" 
+    file "*_data"
+
+    script:
+    """
+    multiqc -f . 
+    """
+}
+
+
+
+
+
+
+
+

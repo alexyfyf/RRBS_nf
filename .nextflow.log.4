@@ -1,0 +1,110 @@
+Jun-01 04:32:59.917 [main] DEBUG nextflow.cli.Launcher - $> nextflow main.nf --reads '/Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz' -resume
+Jun-01 04:33:00.062 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 20.04.1
+Jun-01 04:33:00.076 [main] INFO  nextflow.cli.CmdRun - Launching `main.nf` [sleepy_ride] - revision: 62e24b2de2
+Jun-01 04:33:00.100 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /Myvolume/fyan0011/GitHub/RRBS_nf/nextflow.config
+Jun-01 04:33:00.101 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Myvolume/fyan0011/GitHub/RRBS_nf/nextflow.config
+Jun-01 04:33:00.134 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Jun-01 04:33:00.761 [main] DEBUG nextflow.Session - Session uuid: 40afc830-f02d-4805-b79a-da6cff94e1e5
+Jun-01 04:33:00.761 [main] DEBUG nextflow.Session - Run name: sleepy_ride
+Jun-01 04:33:00.761 [main] DEBUG nextflow.Session - Executor pool size: 12
+Jun-01 04:33:00.774 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 20.04.1 build 5335
+  Created: 03-05-2020 19:37 UTC 
+  System: Linux 4.15.0-20-generic
+  Runtime: Groovy 2.5.8 on OpenJDK 64-Bit Server VM 1.8.0_152-release-1056-b12
+  Encoding: UTF-8 (UTF-8)
+  Process: 10028@general [127.0.1.1]
+  CPUs: 12 - Mem: 47.2 GB (12.4 GB) - Swap: 0 (0)
+Jun-01 04:33:00.810 [main] DEBUG nextflow.Session - Work-dir: /Myvolume/fyan0011/GitHub/RRBS_nf/work [ext2/ext3]
+Jun-01 04:33:00.810 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /Myvolume/fyan0011/GitHub/RRBS_nf/bin
+Jun-01 04:33:00.838 [main] DEBUG nextflow.Session - Observer factory: TowerFactory
+Jun-01 04:33:00.840 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Jun-01 04:33:01.147 [main] DEBUG nextflow.Session - Session start invoked
+Jun-01 04:33:01.448 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Jun-01 04:33:01.456 [main] DEBUG nextflow.Session - Workflow process names [dsl1]: 1B_trim, 1C_post_fastqc, 1A_pre_fastqc, 2A_prepare_bisulfite_genome, 2D_bismark_report, 0A_get_software_versions, 2C_bismark_methXtract, 3A_multiqc, 2E_bismark_summary, 2B_mapping_bismark
+Jun-01 04:33:01.464 [main] INFO  nextflow.Nextflow - R R B S -  N F    v 1.0 
+================================
+genomedir: /Myvolume/fyan0011/GitHub/RRBS_nf/data/
+numet    : /home/ubuntu/software/NuMetRRBS/trimRRBSdiversityAdaptCustomers.py
+reads    : /Myvolume/fyan0011/GitHub/RRBS_nf/data/*R{1,2}.fq.gz
+outdir   : results
+
+Jun-01 04:33:01.561 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:33:01.562 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:33:01.569 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Jun-01 04:33:01.576 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=12; memory=47.2 GB; capacity=12; pollInterval=100ms; dumpInterval=5m
+Jun-01 04:33:01.695 [main] WARN  nextflow.script.ScriptBinding - Access to undefined parameter `single_end` -- Initialise it to a default value eg. `params.single_end = some_value`
+Jun-01 04:33:01.713 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /Myvolume/fyan0011/GitHub/RRBS_nf/data/; pattern: *R{1,2}.fq.gz; options: [:]
+Jun-01 04:33:01.791 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:33:01.791 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:33:01.807 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:33:01.807 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:33:01.820 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:33:01.820 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:33:01.838 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:33:01.838 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:33:01.848 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:33:01.848 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:33:01.857 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:33:01.857 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:33:01.875 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:33:01.875 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:33:01.891 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:33:01.891 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:33:01.904 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-01 04:33:01.905 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-01 04:33:01.905 [Actor Thread 3] INFO  nextflow.processor.TaskProcessor - [1e/f9f2aa] Cached process > 0A_get_software_versions
+Jun-01 04:33:01.905 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [b4/c9bf91] Cached process > 1A_pre_fastqc (sample)
+Jun-01 04:33:01.905 [Actor Thread 9] INFO  nextflow.processor.TaskProcessor - [fe/b6fcb1] Cached process > 2A_prepare_bisulfite_genome (data)
+Jun-01 04:33:01.908 [Actor Thread 7] INFO  nextflow.processor.TaskProcessor - [6a/d83a28] Cached process > 1B_trim (sample)
+Jun-01 04:33:01.910 [main] DEBUG nextflow.script.ScriptRunner - > Await termination 
+Jun-01 04:33:01.910 [main] DEBUG nextflow.Session - Session await
+Jun-01 04:33:01.927 [Actor Thread 3] DEBUG n.util.BlockingThreadExecutorFactory - Thread pool name=FileTransfer; maxThreads=36; maxQueueSize=108; keepAlive=1m
+Jun-01 04:33:01.934 [Actor Thread 10] INFO  nextflow.processor.TaskProcessor - [51/77a8df] Cached process > 1C_post_fastqc (sample)
+Jun-01 04:33:01.944 [Actor Thread 8] INFO  nextflow.processor.TaskProcessor - [07/18b28c] Cached process > 2B_mapping_bismark (sample)
+Jun-01 04:33:01.955 [Actor Thread 9] INFO  nextflow.processor.TaskProcessor - [21/20e766] Cached process > 2C_bismark_methXtract (sample)
+Jun-01 04:33:01.986 [Actor Thread 10] INFO  nextflow.processor.TaskProcessor - [3b/bf36cb] Cached process > 2D_bismark_report (sample)
+Jun-01 04:33:01.997 [Actor Thread 13] INFO  nextflow.processor.TaskProcessor - [f0/8087ec] Cached process > 2E_bismark_summary
+Jun-01 04:33:02.045 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jun-01 04:33:02.049 [Task submitter] INFO  nextflow.Session - [73/d5b628] Submitted process > 3A_multiqc
+Jun-01 04:33:05.819 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 10; name: 3A_multiqc; status: COMPLETED; exit: 0; error: -; workDir: /Myvolume/fyan0011/GitHub/RRBS_nf/work/73/d5b6284222cc379e364229ae63a982]
+Jun-01 04:33:05.824 [Task monitor] DEBUG nextflow.processor.TaskProcessor - Process `3A_multiqc` is unable to find [UnixPath]: `/Myvolume/fyan0011/GitHub/RRBS_nf/work/73/d5b6284222cc379e364229ae63a982/multiqc_plots` (pattern: `multiqc_plots`)
+Jun-01 04:33:05.849 [Task monitor] ERROR nextflow.processor.TaskProcessor - Error executing process > '3A_multiqc'
+
+Caused by:
+  Missing output file(s) `multiqc_plots` expected by process `3A_multiqc`
+
+Command executed:
+
+  multiqc -f .
+
+Command exit status:
+  0
+
+Command output:
+  (empty)
+
+Command error:
+  [WARNING]         multiqc : MultiQC Version v1.9 now available!
+  [INFO   ]         multiqc : This is MultiQC v1.8
+  [INFO   ]         multiqc : Template    : default
+  [INFO   ]         multiqc : Searching   : /Myvolume/fyan0011/GitHub/RRBS_nf/work/73/d5b6284222cc379e364229ae63a982
+  [INFO   ]         bismark : Found 1 bismark alignment reports
+  [INFO   ]         bismark : Found 1 bismark methextract reports
+  [INFO   ]        cutadapt : Found 2 reports
+  [INFO   ]          fastqc : Found 4 reports
+  [INFO   ]         multiqc : Compressing plot data
+  [INFO   ]         multiqc : Report      : multiqc_report.html
+  [INFO   ]         multiqc : Data        : multiqc_data
+  [INFO   ]         multiqc : MultiQC complete
+
+Work dir:
+  /Myvolume/fyan0011/GitHub/RRBS_nf/work/73/d5b6284222cc379e364229ae63a982
+
+Tip: you can replicate the issue by changing to the process work dir and entering the command `bash .command.run`
+Jun-01 04:33:05.853 [main] DEBUG nextflow.Session - Session await > all process finished
+Jun-01 04:33:05.859 [Task monitor] DEBUG nextflow.Session - Session aborted -- Cause: Missing output file(s) `multiqc_plots` expected by process `3A_multiqc`
+Jun-01 04:33:05.876 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Jun-01 04:33:05.891 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=1; ignoredCount=0; cachedCount=9; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=29.8s; cachedDuration=18m 57s;loadCpus=0; loadMemory=0; peakRunning=1; peakCpus=8; peakMemory=0; ]
+Jun-01 04:33:06.075 [main] DEBUG nextflow.CacheDB - Closing CacheDB done
+Jun-01 04:33:06.082 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

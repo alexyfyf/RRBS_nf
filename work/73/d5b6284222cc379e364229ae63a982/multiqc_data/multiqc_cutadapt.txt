@@ -1,0 +1,3 @@
+Sample	r_processed	r_with_adapters	bp_processed	quality_trimmed	bp_written	percent_trimmed
+sample_R1	100000	46867	7790305	27496	7270723	6.669597660168633
+sample_R2	100000	58452	7800000	180692	6928245	11.176346153846154
