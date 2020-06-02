@@ -210,7 +210,7 @@ process '2B_mapping_bismark' {
   script:
   // Paired-end or single end input files
   input = params.single_end ? reads : "-1 ${reads[0]} -2 ${reads[1]}"
-
+  
   // Choice of read aligner
   aligner = params.aligner == "bismark_hisat" ? "--hisat2" : "--bowtie2"    
   hisat2 = params.aligner == "bismark_hisat" ? "--no-spliced-alignment" : ""
@@ -218,7 +218,7 @@ process '2B_mapping_bismark' {
   # echo $input
   bismark --genome $genomeDir \\
        $aligner $hisat2 \\
-       --multicore ${task.cpus}/4 \\
+       --multicore ${task.cpus / 4} \\
        $input
   """
 }
@@ -247,7 +247,7 @@ process '2C_bismark_methXtract' {
     
     """
     bismark_methylation_extractor --comprehensive --merge_non_CpG \\
-    --multicore ${task.cpus}/4 \\
+    --multicore ${task.cpus / 4} \\
     --cytosine_report --genome_folder $genomedir \\
     --ample_memory \\
     --no_overlap \\
