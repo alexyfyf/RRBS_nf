@@ -218,7 +218,7 @@ process '2B_mapping_bismark' {
   # echo $input
   bismark --genome $genomeDir \\
        $aligner $hisat2 \\
-       --multicore ${task.cpus} \\
+       --multicore ${task.cpus}/4 \\
        $input
   """
 }
@@ -247,7 +247,7 @@ process '2C_bismark_methXtract' {
     
     """
     bismark_methylation_extractor --comprehensive --merge_non_CpG \\
-    --multicore ${task.cpus} \\
+    --multicore ${task.cpus}/4 \\
     --cytosine_report --genome_folder $genomedir \\
     --ample_memory \\
     --no_overlap \\
