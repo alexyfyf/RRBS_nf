@@ -184,7 +184,7 @@ process '2A_prepare_bisulfite_genome' {
   """
   mkdir bismarkindex
   cp ${genome}/*.fa* bismarkindex/
-  bismark_genome_preparation $aligner --verbose bismarkindex
+  bismark_genome_preparation $aligner --parallel ${task.cpus / 4}--verbose bismarkindex
   """
 }
 
