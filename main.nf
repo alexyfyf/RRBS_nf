@@ -128,14 +128,14 @@ process '1B_trim' {
     if( params.single_end ) {
             """
             trim_galore -a AGATCGGAAGAGC $reads --cores ${task.cpus}
-            
+            echo $trimpy
             python2 $trimpy -1 ${reads.simpleName}_trimmed.fq.gz &> ${reads.simpleName}_trimpy.log
             """
         } else {
             """
             trim_galore -a AGATCGGAAGAGC -a2 AAATCAAAAAAAC \\
             --paired $reads --cores ${task.cpus}
-            
+            echo $trimpy
             python2 $trimpy -1 ${reads[0].simpleName}_val_1.fq.gz \\
             -2 ${reads[1].simpleName}_val_2.fq.gz &> ${name}_trimpy.log
             """
@@ -186,7 +186,7 @@ process '2A_prepare_bisulfite_genome' {
   """
   mkdir bismarkindex
   cp ${genome}/*.fa* bismarkindex/
-  bismark_genome_preparation $aligner --parallel ${task.cpus / 4}--verbose bismarkindex
+  bismark_genome_preparation $aligner --parallel ${task.cpus / 4} --verbose bismarkindex
   """
 }
 
