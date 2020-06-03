@@ -11,6 +11,8 @@ This pipeline works with FASTQ files
 ## Bismark parameters
 Support `hisat2` (default) and `bowtie2`
 
+## Quick start
+```nextflow main.nf --reads 'data/*R{1,2}.fq.gz' --numet data/trtrimRRBSdiversityAdaptCustomers.py --genome data/genome.fa```
 
 ## Updates:
 * Adapted from nf-core methyl-seq pipeline (https://github.com/nf-core/methylseq)
