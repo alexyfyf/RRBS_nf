@@ -33,6 +33,7 @@ outdir   : $params.outdir
  */
 
 genomedir       = file(params.genomedir)
+numet           = file(params.numet)
 
 
 /*
@@ -115,6 +116,7 @@ process '1B_trim' {
 
     input:
     set val(name), file(reads) from raw_reads_trim_ch
+    file(trimpy) from numet
 
     output:
     set val(name), file('*.fq_trimmed.fq.gz') into clean_reads_bismark_ch, clean_reads_fastqc_ch
@@ -127,14 +129,14 @@ process '1B_trim' {
             """
             trim_galore -a AGATCGGAAGAGC $reads --cores ${task.cpus}
             
-            python2 ${params.numet} -1 ${reads.simpleName}_trimmed.fq.gz &> ${reads.simpleName}_trimpy.log
+            python2 $trimpy -1 ${reads.simpleName}_trimmed.fq.gz &> ${reads.simpleName}_trimpy.log
             """
         } else {
             """
             trim_galore -a AGATCGGAAGAGC -a2 AAATCAAAAAAAC \\
             --paired $reads --cores ${task.cpus}
             
-            python2 ${params.numet} -1 ${reads[0].simpleName}_val_1.fq.gz \\
+            python2 $trimpy -1 ${reads[0].simpleName}_val_1.fq.gz \\
             -2 ${reads[1].simpleName}_val_2.fq.gz &> ${name}_trimpy.log
             """
         }
