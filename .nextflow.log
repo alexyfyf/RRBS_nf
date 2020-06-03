@@ -1,0 +1,147 @@
+Jun-03 01:45:21.027 [main] DEBUG nextflow.cli.Launcher - $> nextflow main.nf --reads 'data/*R{1,2}.fq.gz' --numet data/trtrimRRBSdiversityAdaptCustomers.py --genome data/genome.fa
+Jun-03 01:45:21.128 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 20.04.1
+Jun-03 01:45:21.144 [main] INFO  nextflow.cli.CmdRun - Launching `main.nf` [compassionate_carson] - revision: 9f67ef897d
+Jun-03 01:45:21.167 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /Myvolume/fyan0011/GitHub/RRBS_nf/nextflow.config
+Jun-03 01:45:21.168 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Myvolume/fyan0011/GitHub/RRBS_nf/nextflow.config
+Jun-03 01:45:21.198 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Jun-03 01:45:21.849 [main] DEBUG nextflow.Session - Session uuid: d4fdcd71-6df2-4f0a-bb79-227034975691
+Jun-03 01:45:21.849 [main] DEBUG nextflow.Session - Run name: compassionate_carson
+Jun-03 01:45:21.850 [main] DEBUG nextflow.Session - Executor pool size: 12
+Jun-03 01:45:21.861 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 20.04.1 build 5335
+  Created: 03-05-2020 19:37 UTC 
+  System: Linux 4.15.0-20-generic
+  Runtime: Groovy 2.5.8 on OpenJDK 64-Bit Server VM 1.8.0_152-release-1056-b12
+  Encoding: UTF-8 (UTF-8)
+  Process: 30457@general [127.0.1.1]
+  CPUs: 12 - Mem: 47.2 GB (19.3 GB) - Swap: 0 (0)
+Jun-03 01:45:21.892 [main] DEBUG nextflow.Session - Work-dir: /Myvolume/fyan0011/GitHub/RRBS_nf/work [ext2/ext3]
+Jun-03 01:45:21.893 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /Myvolume/fyan0011/GitHub/RRBS_nf/bin
+Jun-03 01:45:21.915 [main] DEBUG nextflow.Session - Observer factory: TowerFactory
+Jun-03 01:45:21.917 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Jun-03 01:45:22.179 [main] DEBUG nextflow.Session - Session start invoked
+Jun-03 01:45:22.481 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Jun-03 01:45:22.489 [main] DEBUG nextflow.Session - Workflow process names [dsl1]: 1B_trim, 1C_post_fastqc, 1A_pre_fastqc, 2A_prepare_bisulfite_genome, 2D_bismark_report, 0A_get_software_versions, 2C_bismark_methXtract, 3A_multiqc, 2E_bismark_summary, 2B_mapping_bismark
+Jun-03 01:45:22.496 [main] INFO  nextflow.Nextflow - R R B S -  N F    v 1.0 
+================================
+genomedir: /Myvolume/fyan0011/GitHub/RRBS_nf/data/
+numet    : data/trtrimRRBSdiversityAdaptCustomers.py
+reads    : data/*R{1,2}.fq.gz
+outdir   : results
+
+Jun-03 01:45:22.574 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-03 01:45:22.574 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-03 01:45:22.579 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Jun-03 01:45:22.585 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=12; memory=47.2 GB; capacity=12; pollInterval=100ms; dumpInterval=5m
+Jun-03 01:45:22.691 [main] WARN  nextflow.script.ScriptBinding - Access to undefined parameter `single_end` -- Initialise it to a default value eg. `params.single_end = some_value`
+Jun-03 01:45:22.707 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: data/; pattern: *R{1,2}.fq.gz; options: [:]
+Jun-03 01:45:22.770 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-03 01:45:22.770 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-03 01:45:22.782 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-03 01:45:22.782 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-03 01:45:22.790 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-03 01:45:22.790 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-03 01:45:22.794 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-03 01:45:22.795 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-03 01:45:22.803 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-03 01:45:22.803 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-03 01:45:22.811 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-03 01:45:22.811 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-03 01:45:22.830 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-03 01:45:22.830 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-03 01:45:22.843 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-03 01:45:22.843 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-03 01:45:22.852 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jun-03 01:45:22.852 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jun-03 01:45:22.856 [main] DEBUG nextflow.script.ScriptRunner - > Await termination 
+Jun-03 01:45:22.857 [main] DEBUG nextflow.Session - Session await
+Jun-03 01:45:22.879 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jun-03 01:45:22.885 [Task submitter] INFO  nextflow.Session - [80/bfed83] Submitted process > 1A_pre_fastqc (sample)
+Jun-03 01:45:27.280 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 2; name: 1A_pre_fastqc (sample); status: COMPLETED; exit: 0; error: -; workDir: /Myvolume/fyan0011/GitHub/RRBS_nf/work/80/bfed83836406452d81021932be4056]
+Jun-03 01:45:27.285 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jun-03 01:45:27.285 [Task submitter] INFO  nextflow.Session - [51/d6abf8] Submitted process > 1B_trim (sample)
+Jun-03 01:45:27.301 [Task monitor] DEBUG n.util.BlockingThreadExecutorFactory - Thread pool name=FileTransfer; maxThreads=36; maxQueueSize=108; keepAlive=1m
+Jun-03 01:45:32.045 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 3; name: 1B_trim (sample); status: COMPLETED; exit: 2; error: -; workDir: /Myvolume/fyan0011/GitHub/RRBS_nf/work/51/d6abf87e9bcaf898ac9e21c8a4c306]
+Jun-03 01:45:32.048 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jun-03 01:45:32.048 [Task submitter] INFO  nextflow.Session - [df/4fc416] Submitted process > 2A_prepare_bisulfite_genome (data)
+Jun-03 01:45:32.085 [Task monitor] ERROR nextflow.processor.TaskProcessor - Error executing process > '1B_trim (sample)'
+
+Caused by:
+  Process `1B_trim (sample)` terminated with an error exit status (2)
+
+Command executed:
+
+  trim_galore -a AGATCGGAAGAGC -a2 AAATCAAAAAAAC \
+  --paired sample_R1.fq.gz sample_R2.fq.gz --cores 8
+  
+  python2 data/trtrimRRBSdiversityAdaptCustomers.py -1 sample_R1_val_1.fq.gz \
+  -2 sample_R2_val_2.fq.gz &> sample_trimpy.log
+
+Command exit status:
+  2
+
+Command output:
+  (empty)
+
+Command error:
+  52	82	0.0	1	16 66
+  53	65	0.0	1	14 51
+  54	100	0.0	1	10 90
+  55	117	0.0	1	6 111
+  56	81	0.0	1	17 64
+  57	45	0.0	1	3 42
+  58	66	0.0	1	5 61
+  59	64	0.0	1	3 61
+  60	58	0.0	1	3 55
+  61	53	0.0	1	3 50
+  62	37	0.0	1	2 35
+  63	58	0.0	1	5 53
+  64	62	0.0	1	1 61
+  65	66	0.0	1	3 63
+  66	49	0.0	1	3 46
+  67	54	0.0	1	2 52
+  68	52	0.0	1	8 44
+  69	54	0.0	1	11 43
+  70	71	0.0	1	27 44
+  71	104	0.0	1	51 53
+  72	73	0.0	1	29 44
+  73	83	0.0	1	15 68
+  74	86	0.0	1	12 74
+  75	66	0.0	1	23 43
+  76	33	0.0	1	14 19
+  77	7	0.0	1	5 2
+  78	12	0.0	1	10 2
+  
+  
+  RUN STATISTICS FOR INPUT FILE: sample_R2.fq.gz
+  =============================================
+  100000 sequences processed in total
+  The length threshold of paired-end sequences gets evaluated later on (in the validation step)
+  
+  Validate paired-end files sample_R1_trimmed.fq.gz and sample_R2_trimmed.fq.gz
+  file_1: sample_R1_trimmed.fq.gz, file_2: sample_R2_trimmed.fq.gz
+  
+  
+  >>>>> Now validing the length of the 2 paired-end infiles: sample_R1_trimmed.fq.gz and sample_R2_trimmed.fq.gz <<<<<
+  Writing validated paired-end Read 1 reads to sample_R1_val_1.fq.gz
+  Writing validated paired-end Read 2 reads to sample_R2_val_2.fq.gz
+  
+  Total number of sequences analysed: 100000
+  
+  Number of sequence pairs removed because at least one read was shorter than the length cutoff (20 bp): 2799 (2.80%)
+  
+  Deleting both intermediate output files sample_R1_trimmed.fq.gz and sample_R2_trimmed.fq.gz
+  
+  ====================================================================================================
+
+Work dir:
+  /Myvolume/fyan0011/GitHub/RRBS_nf/work/51/d6abf87e9bcaf898ac9e21c8a4c306
+
+Tip: view the complete command output by changing to the process work dir and entering the command `cat .command.out`
+Jun-03 01:45:32.092 [Task monitor] DEBUG nextflow.Session - Session aborted -- Cause: Process `1B_trim (sample)` terminated with an error exit status (2)
+Jun-03 01:45:32.111 [main] DEBUG nextflow.Session - Session await > all process finished
+Jun-03 01:45:32.112 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Jun-03 01:45:32.123 [main] WARN  n.processor.TaskPollingMonitor - Killing pending tasks (1)
+Jun-03 01:45:32.135 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=1; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=2; submittedCount=1; runningCount=-1; retriesCount=0; abortedCount=1; succeedDuration=35s; failedDuration=37.4s; cachedDuration=0ms;loadCpus=-8; loadMemory=0; peakRunning=1; peakCpus=8; peakMemory=0; ]
+Jun-03 01:45:32.309 [main] DEBUG nextflow.CacheDB - Closing CacheDB done
+Jun-03 01:45:32.318 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

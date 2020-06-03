@@ -1,0 +1,1 @@
+2020-06-03 01:45:21	11.3s	compassionate_carson	ERR	9f67ef897d9fef14b736c30e45f702ce	d4fdcd71-6df2-4f0a-bb79-227034975691	nextflow main.nf --reads 'data/*R{1,2}.fq.gz' --numet data/trtrimRRBSdiversityAdaptCustomers.py --genome data/genome.fa
