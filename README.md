@@ -13,6 +13,7 @@ Support `hisat2` (default) and `bowtie2`
 
 ## Quick start
 ```nextflow main.nf --reads 'data/*R{1,2}.fq.gz' --numet data/trimRRBSdiversityAdaptCustomers.py --genome data/genome.fa -profile slurm```
+`-profile slurn` enbales the use of powerful resourse management software SLURM, and the relavant setting for specific task can be changed in `nextflow.config` file.
 
 ## Updates:
 * Adapted from nf-core methyl-seq pipeline (https://github.com/nf-core/methylseq)
