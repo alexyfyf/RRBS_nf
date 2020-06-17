@@ -242,6 +242,7 @@ process '2C_bismark_methXtract' {
     set val(name), file("*splitting_report.txt") into ch_bismark_splitting_report_for_bismark_report, ch_bismark_splitting_report_for_multiqc, ch_bismark_splitting_report_for_bismark_summary
     set val(name), file("*.M-bias.txt") into ch_bismark_mbias_for_bismark_report, ch_bismark_mbias_for_multiqc, ch_bismark_mbias_for_bismark_summary
     file("*.cov.gz") into coverage_bismark_ch
+    set val(name), file("*.bedGraph.gz") into bedgraph_bismark_ch
     file '*.{png,gz}'
     
     script:
@@ -339,7 +340,31 @@ process '3A_multiqc' {
 
 
 
+/**********
+ * PART 4: Visualization
+ *
+ * Process 4A: Generate bigwig files
+ */
+process '4A_toBigWig' {
+    tag "$name"
+    label 'big'
+    publishDir "${params.outdir}/bigwig", mode: 'copy'
 
+    input:
+    file genome from genomedir
+    set val(name), file(bedgraph) from bedgraph_bismark_ch
+
+    output:
+    file "*bw"
+
+    script:
+    """
+    samtools faidx ${genome}/*.fa  
+    cut -f1,2 ${genome}/*fai > chrom.sizes
+    zcat $bedgraph | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' | sort -k1,1 -k2,2n > ${name}.bedGraph
+    bedGraphToBigWig ${name}.bedGraph chrom.sizes ${name}.bw 
+    """
+}
 
 
 
