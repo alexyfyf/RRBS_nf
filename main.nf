@@ -41,6 +41,7 @@ numet           = file(params.numet)
  */
 process '0A_get_software_versions' {
     publishDir "${params.outdir}/pipeline_info", mode: 'copy'
+    executor 'local'
 
     output:
     file '*.txt'
