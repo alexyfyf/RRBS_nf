@@ -13,6 +13,7 @@ Support `hisat2` (default) and `bowtie2`
 
 ## Quick start
 ```nextflow main.nf --reads 'data/*R{1,2}.fq.gz' --numet data/trimRRBSdiversityAdaptCustomers.py --genomedir data -profile slurm```
+
 ```nextflow main.nf --single_end --reads 'data/*.fq.gz' --numet data/trimRRBSdiversityAdaptCustomers.py --genomedir data -profile slurm```
 
 `-profile slurm` enbales the use of powerful resourse management software SLURM, and the relavant setting for specific task can be changed in `nextflow.config` file.
