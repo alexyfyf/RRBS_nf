@@ -34,7 +34,7 @@ outdir   : $params.outdir
 
 genomedir       = file(params.genomedir)
 numet           = file(params.numet)
-
+fasta           = Channel.fromPath(params.genomedir)
 
 /*
  * PART 0: Preparation 
@@ -352,7 +352,7 @@ process '4A_toBigWig' {
     publishDir "${params.outdir}/bigwig", mode: 'copy'
 
     input:
-    file genome from genomedir
+    file fasta from fasta
     set val(name), file(bedgraph) from bedgraph_bismark_ch
 
     output:
@@ -360,8 +360,8 @@ process '4A_toBigWig' {
 
     script:
     """
-    samtools faidx ${genome}/*.fa  
-    cut -f1,2 ${genome}/*fai > chrom.sizes
+    samtools faidx ${fasta} 
+    cut -f1,2 ${fasta.baseName}.fai > chrom.sizes
     zcat $bedgraph | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' | sort -k1,1 -k2,2n > ${name}.bedGraph
     bedGraphToBigWig ${name}.bedGraph chrom.sizes ${name}.bw 
     """
