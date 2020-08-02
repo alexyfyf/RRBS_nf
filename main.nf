@@ -35,7 +35,7 @@ outdir   : $params.outdir
 genomedir       = file(params.genomedir)
 numet           = file(params.numet)
 Channel
-        .fromPath( params.genomedir )
+        .fromPath( "${genomedir}/*.fa" )
         .set{ fasta_ch }
 
 /*
@@ -363,7 +363,7 @@ process '4A_toBigWig' {
     script:
     """
     samtools faidx ${fasta} 
-    cut -f1,2 ${fasta.baseName}.fai > chrom.sizes
+    cut -f1,2 ${fasta}.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
     zcat $bedgraph | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' | sort -k1,1 -k2,2n > ${name}.bedGraph
     bedGraphToBigWig ${name}.bedGraph chrom.sizes ${name}.bw 
     """
