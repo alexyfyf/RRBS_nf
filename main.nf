@@ -35,8 +35,8 @@ outdir   : $params.outdir
 genomedir       = file(params.genomedir)
 numet           = file(params.numet)
 Channel
-        .fromPath(params.genomedir)
-        .set(fasta_ch)
+        .fromPath( params.genomedir )
+        .set{ fasta_ch }
 
 /*
  * PART 0: Preparation 
