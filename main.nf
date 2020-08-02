@@ -34,7 +34,9 @@ outdir   : $params.outdir
 
 genomedir       = file(params.genomedir)
 numet           = file(params.numet)
-fasta           = Channel.fromPath(params.genomedir)
+Channel
+        .fromPath(params.genomedir)
+        .set(fasta_ch)
 
 /*
  * PART 0: Preparation 
@@ -352,7 +354,7 @@ process '4A_toBigWig' {
     publishDir "${params.outdir}/bigwig", mode: 'copy'
 
     input:
-    file fasta from fasta
+    file fasta from fasta_ch
     set val(name), file(bedgraph) from bedgraph_bismark_ch
 
     output:
