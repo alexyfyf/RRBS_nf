@@ -14,7 +14,7 @@
  */ 
  
 params.genomedir  = "$baseDir/data/"
-params.numet      = "/home/ubuntu/software/NuMetRRBS/trimRRBSdiversityAdaptCustomers.py"
+params.numet      = "$baseDir/bin/trimRRBSdiversityAdaptCustomers.py"
 params.reads      = "$baseDir/data/sample_R{1,2}.fq.gz"
 params.outdir     = "results"
 params.aligner    = "bismark_hisat"
@@ -269,7 +269,7 @@ ch_bismark_align_log_for_bismark_report
   .join(ch_bismark_mbias_for_bismark_report)
   .set{ ch_bismark_logs_for_bismark_report }
 
-
+// bedgraph_bismark_ch.view()
 
 /*
  * Process 2D: Bismark Sample Report
@@ -354,7 +354,7 @@ process '4A_faidx' {
     file fasta from fasta_ch
 
     output:
-    file 'chrome.sizes' into chr_size_ch
+    file "chrom.sizes" into chr_size_ch
 
     script:
     """
@@ -363,6 +363,8 @@ process '4A_faidx' {
     """
 }
 
+//chr_size_ch.view()
+//bedgraph_bismark_ch.view()
 
 /**********
  *
@@ -374,16 +376,16 @@ process '4B_toBigWig' {
     publishDir "${params.outdir}/bigwig", mode: 'copy'
 
     input:
-    file chrsize from chr_size_ch
     set val(name), file(bedgraph) from bedgraph_bismark_ch
+    file chrsize from chr_size_ch
 
     output:
-    file "*bw"
+    file "*.bw"
 
     script:
     """
-    zcat $bedgraph | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' | sort -k1,1 -k2,2n > ${name}.bedGraph
-    bedGraphToBigWig ${name}.bedGraph ${chrsize} ${name}.bw 
+    zcat $bedgraph | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' | sort -k1,1 -k2,2n > ${bedgraph.simpleName}.bedGraph
+    bedGraphToBigWig ${bedgraph.simpleName}.bedGraph ${chrsize} ${bedgraph.simpleName}.bw 
     """
 }
 
