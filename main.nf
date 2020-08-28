@@ -341,20 +341,40 @@ process '3A_multiqc' {
     """
 }
 
-
-
 /**********
  * PART 4: Visualization
  *
- * Process 4A: Generate bigwig files
+ * Process 4A: Generate fasta index
  */
-process '4A_toBigWig' {
+process '4A_faidx' {
+    tag "$fasta.baseName"
+    label 'big'
+
+    input:
+    file fasta from fasta_ch
+
+    output:
+    file 'chrome.sizes' into chr_size_ch
+
+    script:
+    """
+    samtools faidx ${fasta} 
+    cut -f1,2 ${fasta}.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
+    """
+}
+
+
+/**********
+ *
+ * Process 4B: Generate bigwig files
+ */
+process '4B_toBigWig' {
     tag "$name"
     label 'big'
     publishDir "${params.outdir}/bigwig", mode: 'copy'
 
     input:
-    file fasta from fasta_ch
+    file chrsize from chr_size_ch
     set val(name), file(bedgraph) from bedgraph_bismark_ch
 
     output:
@@ -362,10 +382,8 @@ process '4A_toBigWig' {
 
     script:
     """
-    samtools faidx ${fasta} 
-    cut -f1,2 ${fasta}.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
     zcat $bedgraph | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' | sort -k1,1 -k2,2n > ${name}.bedGraph
-    bedGraphToBigWig ${name}.bedGraph chrom.sizes ${name}.bw 
+    bedGraphToBigWig ${name}.bedGraph ${chrsize} ${name}.bw 
     """
 }
 
