@@ -26,9 +26,13 @@ if (!require(ChIPseeker)) {
 if (!require(ChIPseeker)) {
   BiocManager::install(ChIPseeker)
 }
-if (!require()) {
+if (!require(annotatr)) {
   BiocManager::install(annotatr)
 }
+if (!require(R.utils)) {
+  install.packages(R.utils)
+}
+
 
 # suppressPackageStartupMessages({
 #   library(tidyverse)
