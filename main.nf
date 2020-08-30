@@ -1,9 +1,9 @@
-/* 
+/*
  * 'RRBS_nf' - A Nextflow pipeline for RRBS data analysis
- * 
- * This pipeline deals with RRBS data from NuGen Ovation library 
+ *
+ * This pipeline deals with RRBS data from NuGen Ovation library
  * input is reads in FASTQ format
- * 
+ *
  * Feng Yan
  * feng.yan@monash.edu
  */
@@ -11,21 +11,26 @@
 
 /*
  * Define the default parameters
- */ 
- 
-params.genomedir  = "$baseDir/data/"
+ */
+
+params.genomedir  = "$baseDir/data/ref/"
 params.numet      = "$baseDir/bin/trimRRBSdiversityAdaptCustomers.py"
 params.reads      = "$baseDir/data/sample_R{1,2}.fq.gz"
 params.outdir     = "results"
 params.aligner    = "bismark_hisat"
+params.summary    = "$baseDir/bin/summaryV4.R"
+params.species    = "mm10"
+params.samplesheet= "$baseDir/data/samplesheet.csv"
+
 
 log.info """\
-R R B S -  N F    v 1.0 
+R R B S -  N F    v 1.0
 ================================
 genomedir: $params.genomedir
-numet    : $params.numet
+species  : $params.species
 reads    : $params.reads
 outdir   : $params.outdir
+
 """
 
 /*
@@ -39,7 +44,7 @@ Channel
         .set{ fasta_ch }
 
 /*
- * PART 0: Preparation 
+ * PART 0: Preparation
  */
 process '0A_get_software_versions' {
     publishDir "${params.outdir}/pipeline_info", mode: 'copy'
@@ -85,7 +90,7 @@ Channel
 
 /**********
  * PART 1: Preprocessing
- * 
+ *
  * Process 1A: fastqc report for raw data
  */
 process '1A_pre_fastqc' {
@@ -175,14 +180,14 @@ process '1C_post_fastqc' {
  * Process 2A: Create a bisulfite converted genome index (.fai) with bismark
  */
 
-process '2A_prepare_bisulfite_genome' { 
+process '2A_prepare_bisulfite_genome' {
   tag "$genome.baseName"
   label 'bismark'
- 
-  input: 
+
+  input:
       file genome from genomedir
-  output: 
-      file 'bismarkindex' into genome_dir_ch  
+  output:
+      file 'bismarkindex' into genome_dir_ch
 
   script:
   aligner = params.aligner == 'bismark_hisat' ? '--hisat2' : '--bowtie2'
@@ -206,18 +211,18 @@ process '2B_mapping_bismark' {
 
   input:
       file genomeDir from genome_dir_ch
-      set val(name), file(reads) from clean_reads_bismark_ch 
+      set val(name), file(reads) from clean_reads_bismark_ch
 
-  output: 
+  output:
       set val(name), file('*.bam') into aligned_bam_ch, ch_bam_for_bismark_summary
-      set val(name), file('*report.txt') into ch_bismark_align_log_for_multiqc, ch_bismark_align_log_for_bismark_report, ch_bismark_align_log_for_bismark_summary
+      set val(name), file('*report.txt') into ch_bismark_align_log_for_multiqc, ch_bismark_align_log_for_bismark_report, ch_bismark_align_log_for_bismark_summary, ch_bismark_align_log_for_Rsummary
 
   script:
   // Paired-end or single end input files
   input = params.single_end ? reads : "-1 ${reads[0]} -2 ${reads[1]}"
-  
+
   // Choice of read aligner
-  aligner = params.aligner == "bismark_hisat" ? "--hisat2" : "--bowtie2"    
+  aligner = params.aligner == "bismark_hisat" ? "--hisat2" : "--bowtie2"
   hisat2 = params.aligner == "bismark_hisat" ? "--no-spliced-alignment" : ""
   """
   # echo $input
@@ -244,13 +249,13 @@ process '2C_bismark_methXtract' {
     output:
     set val(name), file("*splitting_report.txt") into ch_bismark_splitting_report_for_bismark_report, ch_bismark_splitting_report_for_multiqc, ch_bismark_splitting_report_for_bismark_summary
     set val(name), file("*.M-bias.txt") into ch_bismark_mbias_for_bismark_report, ch_bismark_mbias_for_multiqc, ch_bismark_mbias_for_bismark_summary
-    file("*.cov.gz") into coverage_bismark_ch
+    set val(name), file("*.cov.gz") into coverage_bismark_ch, covgz_for_Rsummary
     set val(name), file("*.bedGraph.gz") into bedgraph_bismark_ch
     file '*.{png,gz}'
-    
+
     script:
     // cytosine_report = params.cytosine_report ? "--cytosine_report --genome_folder ${index} " : ''
-    
+
     """
     bismark_methylation_extractor --comprehensive --merge_non_CpG \\
     --multicore ${task.cpus / 4} \\
@@ -282,7 +287,7 @@ process '2D_bismark_report' {
     set val(name), file(align_log), file(splitting_report), file(mbias) from ch_bismark_logs_for_bismark_report
 
     output:
-    file '*{html,txt}' 
+    file '*{html,txt}'
 
     script:
     """
@@ -307,7 +312,7 @@ process '2E_bismark_summary' {
     file ('*') from ch_bismark_mbias_for_bismark_summary.collect()
 
     output:
-    file '*{html,txt}' 
+    file '*{html,txt}'
 
     script:
     """
@@ -317,7 +322,7 @@ process '2E_bismark_summary' {
 
 /**********
  * PART 3: Summary
- * 
+ *
  * Process 3A: MultiQC
  */
 process '3A_multiqc' {
@@ -332,12 +337,12 @@ process '3A_multiqc' {
     file ('bismark_methylation/*') from ch_bismark_mbias_for_multiqc.collect().ifEmpty([])
 
     output:
-    file "*multiqc_report.html" 
+    file "*multiqc_report.html"
     file "*_data"
 
     script:
     """
-    multiqc -f . 
+    multiqc -f .
     """
 }
 
@@ -358,7 +363,7 @@ process '4A_faidx' {
 
     script:
     """
-    samtools faidx ${fasta} 
+    samtools faidx ${fasta}
     cut -f1,2 ${fasta}.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
     """
 }
@@ -369,7 +374,6 @@ process '4A_faidx' {
 // bedgraph_bismark_ch.combine(chr_size_ch).view()
 
 /**********
- *
  * Process 4B: Generate bigwig files
  */
 process '4B_toBigWig' {
@@ -381,17 +385,39 @@ process '4B_toBigWig' {
     //set val(name), file(bedgraph) from bedgraph_bismark_ch
     //file chrsize from chr_size_ch
     set val(name), file(bedgraph), file(chrsize) from bedgraph_bismark_ch.combine(chr_size_ch)
-    
+
     output:
     file "*.bw"
 
     script:
     """
     zcat $bedgraph | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' | sort -k1,1 -k2,2n > ${bedgraph.simpleName}.bedGraph
-    bedGraphToBigWig ${bedgraph.simpleName}.bedGraph ${chrsize} ${bedgraph.simpleName}.bw 
+    bedGraphToBigWig ${bedgraph.simpleName}.bedGraph ${chrsize} ${bedgraph.simpleName}.bw
     """
 }
 
+covgz_for_Rsummary.join{ch_bismark_align_log_for_Rsummary}.collect()
 
+/**********
+ * Process 4C: Generate summary statistics
+ */
+process '4B_toRSummary' {
+    tag "$name"
+    label 'big'
+    publishDir "${params.outdir}/summaryplot", mode: 'copy'
 
+    input:
+    set val(name), file(bedgraph), file(report) from covgz_for_Rsummary.join{ch_bismark_align_log_for_Rsummary}.collect()
+    file(samplesheet) from samplesheet
+    val(species) from species
 
+    output:
+    file "*.png"
+    file "*.RData"
+
+    script:
+    """
+    module load R
+    Rscript --vanilla $summary $samplesheet $species
+    """
+}
