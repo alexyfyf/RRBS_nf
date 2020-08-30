@@ -30,7 +30,7 @@ genomedir: $params.genomedir
 species  : $params.species
 reads    : $params.reads
 outdir   : $params.outdir
-
+sample   : $params.samplesheet
 """
 
 /*
@@ -42,6 +42,9 @@ numet           = file(params.numet)
 Channel
         .fromPath( "${genomedir}/*.fa" )
         .set{ fasta_ch }
+samplesheet     = file(params.samplesheet)
+species         = Channel.from(params.species)
+summary         = file(params.summary)
 
 /*
  * PART 0: Preparation
@@ -396,24 +399,26 @@ process '4B_toBigWig' {
     """
 }
 
-covgz_for_Rsummary.join{ch_bismark_align_log_for_Rsummary}.collect()
+//covgz_for_Rsummary
+//  .join(ch_bismark_align_log_for_Rsummary).collect().view()
 
 /**********
  * Process 4C: Generate summary statistics
  */
-process '4B_toRSummary' {
-    tag "$name"
+process '4c_toRSummary' {
+    tag "summaryplot"
     label 'big'
     publishDir "${params.outdir}/summaryplot", mode: 'copy'
 
     input:
-    set val(name), file(bedgraph), file(report) from covgz_for_Rsummary.join{ch_bismark_align_log_for_Rsummary}.collect()
+    file("*") from covgz_for_Rsummary.join(ch_bismark_align_log_for_Rsummary).collect()
     file(samplesheet) from samplesheet
     val(species) from species
-
+    file(summary) from summary
+    
     output:
     file "*.png"
-    file "*.RData"
+    //file "*.RData"
 
     script:
     """
