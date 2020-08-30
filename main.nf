@@ -363,8 +363,10 @@ process '4A_faidx' {
     """
 }
 
-//chr_size_ch.view()
-//bedgraph_bismark_ch.view()
+// chr_size_ch.view()
+// bedgraph_bismark_ch.view()
+
+// bedgraph_bismark_ch.combine(chr_size_ch).view()
 
 /**********
  *
@@ -376,9 +378,10 @@ process '4B_toBigWig' {
     publishDir "${params.outdir}/bigwig", mode: 'copy'
 
     input:
-    set val(name), file(bedgraph) from bedgraph_bismark_ch
-    file chrsize from chr_size_ch
-
+    //set val(name), file(bedgraph) from bedgraph_bismark_ch
+    //file chrsize from chr_size_ch
+    set val(name), file(bedgraph), file(chrsize) from bedgraph_bismark_ch.combine(chr_size_ch)
+    
     output:
     file "*.bw"
 
