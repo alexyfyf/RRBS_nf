@@ -418,7 +418,7 @@ process '4c_toRSummary' {
     
     output:
     file "*.png"
-    //file "*.RData"
+    file "*.RData"
 
     script:
     """
