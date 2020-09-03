@@ -56,7 +56,7 @@ cond <- levels(group)
 for (i in cond) {
   dir.create(i)
   filebasename <- paste0(samplesheet$V1[samplesheet$V2==i]) %>% as.character() %>%
-    gsub(pattern = ".fq.gz", replacement = "", fixed = TRUE)
+    gsub(pattern = "\\.(fq|fastq)\\.gz", replacement = "") ## support both fq.gz and fastq.gz files
 
   lapply(list.files(pattern = paste0(filebasename, collapse = "|")), function(x){
     file.symlink(file.path("..",x), file.path(i))
