@@ -31,12 +31,8 @@ genomedir: $params.genomedir
 species  : $params.species
 reads    : $params.reads
 outdir   : $params.outdir
-<<<<<<< Updated upstream
-
-=======
 sample   : $params.samplesheet
 library  : $params.library
->>>>>>> Stashed changes
 """
 
 /*
@@ -431,10 +427,7 @@ process '4B_toRSummary' {
     set val(name), file(bedgraph), file(report) from covgz_for_Rsummary.join{ch_bismark_align_log_for_Rsummary}.collect()
     file(samplesheet) from samplesheet
     val(species) from species
-<<<<<<< Updated upstream
-=======
     file(summary) from summary
->>>>>>> Stashed changes
 
     output:
     file "*.png"
