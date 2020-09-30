@@ -21,6 +21,7 @@ params.aligner    = "bismark_hisat"
 params.summary    = "$baseDir/bin/summaryV4.R"
 params.species    = "mm10"
 params.samplesheet= "$baseDir/data/samplesheet.csv"
+params.library    = "nugen"
 
 
 log.info """\
@@ -30,7 +31,8 @@ genomedir: $params.genomedir
 species  : $params.species
 reads    : $params.reads
 outdir   : $params.outdir
-
+sample   : $params.samplesheet
+library  : $params.library
 """
 
 /*
@@ -132,7 +134,7 @@ process '1B_trim' {
     file('*.log')
 
     script:
-
+    if( library == "nugen" ) {
     if( params.single_end ) {
             """
             trim_galore -a AGATCGGAAGAGC $reads --cores ${task.cpus}
@@ -148,6 +150,21 @@ process '1B_trim' {
             -2 ${reads[1].simpleName}_val_2.fq.gz &> ${name}_trimpy.log
             """
         }
+    } else if (library == "epic") {
+    if( params.single_end ) {
+            """
+            ## leave to auto detection
+            trim_galore $reads --cores ${task.cpus}
+            """
+        } else {
+            """
+            trim_galore --paired $reads --cores ${task.cpus}
+            """
+        }
+    }
+
+
+
 }
 
 /**********
@@ -410,6 +427,7 @@ process '4B_toRSummary' {
     set val(name), file(bedgraph), file(report) from covgz_for_Rsummary.join{ch_bismark_align_log_for_Rsummary}.collect()
     file(samplesheet) from samplesheet
     val(species) from species
+    file(summary) from summary
 
     output:
     file "*.png"
