@@ -27,12 +27,12 @@ params.library    = "nugen"
 log.info """\
 R R B S -  N F    v 1.0
 ================================
-genomedir: $params.genomedir
-species  : $params.species
-reads    : $params.reads
-outdir   : $params.outdir
-sample   : $params.samplesheet
-library  : $params.library
+genomedir	: $params.genomedir
+species  	: $params.species
+reads    	: $params.reads
+outdir   	: $params.outdir
+samplesheet	: $params.samplesheet
+library  	: $params.library
 """
 
 /*
