@@ -166,13 +166,13 @@ ggsave("ridge_plot.png")
 
 if (args[2]=="mm10") {
   if (!require(TxDb.Mmusculus.UCSC.mm10.knownGene)) {
-    BiocManager::install(TxDb.Mmusculus.UCSC.mm10.knownGene)
+    BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
   }
   txdb <- TxDb.Mmusculus.UCSC.mm10.knownGene
   # orgdb <- "org.Mm.eg.db"
-} else if (args2=="hg38") {
+} else if (args[2]=="hg38") {
   if (!require(TxDb.Hsapiens.UCSC.hg38.knownGene)) {
-    BiocManager::install(TxDb.Hsapiens.UCSC.hg38.knownGene)
+    BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
   }
   txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
   # orgdb <- "org.Hs.eg.db"

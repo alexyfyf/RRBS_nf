@@ -134,10 +134,10 @@ process '1B_trim' {
     output:
     set val(name), file('*.fq_trimmed.fq.gz') into clean_reads_bismark_ch, clean_reads_fastqc_ch
     file('*report.txt') into ch_trimgalore_results_for_multiqc
-    file('*.log')
+    file('*.log') optional true
 
     script:
-    if( library == "nugen" ) {
+    if( params.library == "nugen" ) {
     if( params.single_end ) {
             """
             trim_galore -a AGATCGGAAGAGC $reads --cores ${task.cpus}
@@ -153,15 +153,18 @@ process '1B_trim' {
             -2 ${reads[1].simpleName}_val_2.fq.gz &> ${name}_trimpy.log
             """
         }
-    } else if (library == "epic") {
+    } else if (params.library == "epic") {
     if( params.single_end ) {
             """
             ## leave to auto detection
             trim_galore $reads --cores ${task.cpus}
+	    mv ${reads.simpleName}_trimmed.fq.gz ${reads.simpleName}.fq_trimmed.fq.gz
             """
         } else {
             """
             trim_galore --paired $reads --cores ${task.cpus}
+            mv ${reads[0].simpleName}_val_1.fq.gz ${reads[0].simpleName}.fq_trimmed.fq.gz
+            mv ${reads[1].simpleName}_val_2.fq.gz ${reads[1].simpleName}.fq_trimmed.fq.gz
             """
         }
     }
