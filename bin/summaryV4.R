@@ -23,11 +23,11 @@ if (!require(methylKit)) {
 if (!require(ChIPseeker)) {
   BiocManager::install(ChIPseeker)
 }
-if (!require(ChIPseeker)) {
-  BiocManager::install(ChIPseeker)
-}
-if (!require()) {
+if (!require(annotatr)) {
   BiocManager::install(annotatr)
+}
+if (!require(R.utils)) {
+  install.packages(R.utils)
 }
 
 # suppressPackageStartupMessages({
@@ -43,6 +43,8 @@ if (!require()) {
 #   library(ggridges)
 # })
 
+## currently need at least 2 groups
+## if paired-end data, only use R1 fastq file
 samplesheet <- read.csv(args[1], header = FALSE)
 group <- samplesheet$V2
 cond <- levels(group)
@@ -52,7 +54,7 @@ cond <- levels(group)
 for (i in cond) {
   dir.create(i)
   filebasename <- paste0(samplesheet$V1[samplesheet$V2==i]) %>% as.character() %>%
-    gsub(pattern = ".fq.gz", replacement = "", fixed = TRUE)
+    gsub(pattern = "\\.(fq|fastq)\\.gz", replacement = "") ## support both fq.gz and fastq.gz files
 
   lapply(list.files(pattern = paste0(filebasename, collapse = "|")), function(x){
     file.symlink(file.path("..",x), file.path(i))
@@ -162,13 +164,13 @@ ggsave("ridge_plot.png")
 
 if (args[2]=="mm10") {
   if (!require(TxDb.Mmusculus.UCSC.mm10.knownGene)) {
-    BiocManager::install(TxDb.Mmusculus.UCSC.mm10.knownGene)
+    BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
   }
   txdb <- TxDb.Mmusculus.UCSC.mm10.knownGene
   # orgdb <- "org.Mm.eg.db"
-} else if (args2=="hg38") {
+} else if (args[2]=="hg38") {
   if (!require(TxDb.Hsapiens.UCSC.hg38.knownGene)) {
-    BiocManager::install(TxDb.Hsapiens.UCSC.hg38.knownGene)
+    BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
   }
   txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
   # orgdb <- "org.Hs.eg.db"

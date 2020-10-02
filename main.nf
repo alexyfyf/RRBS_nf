@@ -42,8 +42,11 @@ library  	: $params.library
 genomedir       = file(params.genomedir)
 numet           = file(params.numet)
 Channel
-        .fromPath( "${genomedir}/*.fa" )
+        .fromPath( "${genomedir}/*.fa*" )
         .set{ fasta_ch }
+samplesheet     = file(params.samplesheet)
+species         = Channel.from(params.species)
+summary         = file(params.summary)
 
 /*
  * PART 0: Preparation
@@ -131,10 +134,10 @@ process '1B_trim' {
     output:
     set val(name), file('*.fq_trimmed.fq.gz') into clean_reads_bismark_ch, clean_reads_fastqc_ch
     file('*report.txt') into ch_trimgalore_results_for_multiqc
-    file('*.log')
+    file('*.log') optional true 
 
     script:
-    if( library == "nugen" ) {
+    if( params.library == "nugen" ) {
     if( params.single_end ) {
             """
             trim_galore -a AGATCGGAAGAGC $reads --cores ${task.cpus}
@@ -150,15 +153,18 @@ process '1B_trim' {
             -2 ${reads[1].simpleName}_val_2.fq.gz &> ${name}_trimpy.log
             """
         }
-    } else if (library == "epic") {
+    } else if (params.library == "epic") {
     if( params.single_end ) {
             """
             ## leave to auto detection
             trim_galore $reads --cores ${task.cpus}
+            mv ${reads.simpleName}_trimmed.fq.gz ${reads.simpleName}.fq_trimmed.fq.gz
             """
         } else {
             """
             trim_galore --paired $reads --cores ${task.cpus}
+            mv ${reads[0].simpleName}_val_1.fq.gz ${reads[0].simpleName}.fq_trimmed.fq.gz 
+            mv ${reads[1].simpleName}_val_2.fq.gz ${reads[1].simpleName}.fq_trimmed.fq.gz
             """
         }
     }
@@ -379,10 +385,23 @@ process '4A_faidx' {
     file "chrom.sizes" into chr_size_ch
 
     script:
-    """
-    samtools faidx ${fasta}
-    cut -f1,2 ${fasta}.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
-    """
+    if( fasta.extension == 'fa|fasta' ) {
+            """
+            samtools faidx ${fasta}
+            cut -f1,2 ${fasta}.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
+            """
+       } else if( fasta.extension == 'gz' ) {
+	    """
+            zcat ${fasta} | bgzip -c > ${fasta.simpleName}.fa.bgz
+            samtools faidx ${fasta.simpleName}.fa.bgz
+            cut -f1,2 ${fasta.simpleName}.fa.bgz.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
+            """
+       }
+
+//    """
+//    samtools faidx ${fasta}
+//    cut -f1,2 ${fasta}.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
+//    """
 }
 
 // chr_size_ch.view()
@@ -413,7 +432,7 @@ process '4B_toBigWig' {
     """
 }
 
-covgz_for_Rsummary.join{ch_bismark_align_log_for_Rsummary}.collect()
+//covgz_for_Rsummary.join(ch_bismark_align_log_for_Rsummary).collect().view()
 
 /**********
  * Process 4C: Generate summary statistics
@@ -424,7 +443,7 @@ process '4B_toRSummary' {
     publishDir "${params.outdir}/summaryplot", mode: 'copy'
 
     input:
-    set val(name), file(bedgraph), file(report) from covgz_for_Rsummary.join{ch_bismark_align_log_for_Rsummary}.collect()
+    file("*") from covgz_for_Rsummary.join(ch_bismark_align_log_for_Rsummary).collect()
     file(samplesheet) from samplesheet
     val(species) from species
     file(summary) from summary
