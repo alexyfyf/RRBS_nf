@@ -23,9 +23,6 @@ if (!require(methylKit)) {
 if (!require(ChIPseeker)) {
   BiocManager::install(ChIPseeker)
 }
-if (!require(ChIPseeker)) {
-  BiocManager::install(ChIPseeker)
-}
 if (!require(annotatr)) {
   BiocManager::install(annotatr)
 }
@@ -47,6 +44,8 @@ if (!require(R.utils)) {
 #   library(ggridges)
 # })
 
+## currently need at least 2 groups
+## if paired-end data, only use R1 fastq file
 samplesheet <- read.csv(args[1], header = FALSE)
 group <- samplesheet$V2
 cond <- levels(group)
