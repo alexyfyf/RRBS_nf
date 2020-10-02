@@ -397,16 +397,10 @@ process '4A_faidx' {
             cut -f1,2 ${fasta.simpleName}.fa.bgz.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
             """
        }
-
-//    """
-//    samtools faidx ${fasta}
-//    cut -f1,2 ${fasta}.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
-//    """
 }
 
 // chr_size_ch.view()
 // bedgraph_bismark_ch.view()
-
 // bedgraph_bismark_ch.combine(chr_size_ch).view()
 
 /**********
@@ -432,13 +426,14 @@ process '4B_toBigWig' {
     """
 }
 
-//covgz_for_Rsummary.join(ch_bismark_align_log_for_Rsummary).collect().view()
+//covgz_for_Rsummary
+//  .join(ch_bismark_align_log_for_Rsummary).collect().view()
 
 /**********
  * Process 4C: Generate summary statistics
  */
-process '4B_toRSummary' {
-    tag "$name"
+process '4c_toRSummary' {
+    tag "summaryplot"
     label 'big'
     publishDir "${params.outdir}/summaryplot", mode: 'copy'
 
@@ -447,7 +442,7 @@ process '4B_toRSummary' {
     file(samplesheet) from samplesheet
     val(species) from species
     file(summary) from summary
-
+    
     output:
     file "*.png"
     file "*.RData"
