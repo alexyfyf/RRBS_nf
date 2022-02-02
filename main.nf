@@ -22,7 +22,8 @@ params.summary    = "$baseDir/bin/summaryV4.R"
 params.species    = "mm10"
 params.samplesheet= "$baseDir/data/samplesheet.csv"
 params.library    = "nugen"
-
+params.clip3prime = 5
+params.trim       = "trim"
 
 log.info """\
 R R B S -  N F    v 1.0
@@ -33,6 +34,7 @@ reads    	: $params.reads
 outdir   	: $params.outdir
 samplesheet	: $params.samplesheet
 library  	: $params.library
+trim            : $params.trim
 """
 
 /*
@@ -101,7 +103,7 @@ Channel
 process '1A_pre_fastqc' {
     tag "$name"
     label 'big'
-    publishDir "${params.outdir}/fastqc", mode: 'copy',
+    publishDir "${params.outdir}/pre_fastqc", mode: 'copy',
         saveAs: { filename ->
                       filename.indexOf(".zip") > 0 ? "zips/$filename" : "$filename"
                 }
@@ -130,12 +132,13 @@ process '1B_trim' {
     input:
     set val(name), file(reads) from raw_reads_trim_ch
     file(trimpy) from numet
+    // val(clip3) from params.clip3prime
 
     output:
     set val(name), file('*.fq_trimmed.fq.gz') into clean_reads_bismark_ch, clean_reads_fastqc_ch
-    file('*report.txt') into ch_trimgalore_results_for_multiqc
+    file('*report.txt') into ch_trimgalore_results_for_multiqc optional true
     file('*.log') optional true 
-
+     
     script:
     if( params.library == "nugen" ) {
     if( params.single_end ) {
@@ -153,24 +156,34 @@ process '1B_trim' {
             -2 ${reads[1].simpleName}_val_2.fq.gz &> ${name}_trimpy.log
             """
         }
-    } else if (params.library == "epic") {
+    } else if (params.library == "epic" && params.trim == "trim") { // adde trim for Epic becasue we noticed bias toward 3 prime end
     if( params.single_end ) {
+            // clip3 = params.clip3prime == 0 ? "" : "--three_prime_clip_R1 $params.clip3prime"
             """
             ## leave to auto detection
             trim_galore $reads --cores ${task.cpus}
             mv ${reads.simpleName}_trimmed.fq.gz ${reads.simpleName}.fq_trimmed.fq.gz
             """
         } else {
+            // clip3 = params.clip3prime == 0 ? "" : "--three_prime_clip_R1 $params.clip3prime --three_prime_clip_R2 $params.clip3prime"
             """
             trim_galore --paired $reads --cores ${task.cpus}
             mv ${reads[0].simpleName}_val_1.fq.gz ${reads[0].simpleName}.fq_trimmed.fq.gz 
             mv ${reads[1].simpleName}_val_2.fq.gz ${reads[1].simpleName}.fq_trimmed.fq.gz
             """
         }
+    } else if (params.library == "epic" && params.trim == "skip") {
+    if( params.single_end ) {
+            """
+            mv ${reads} ${reads.simpleName}.fq_trimmed.fq.gz
+            """
+        } else {
+            """
+            mv ${reads[0]} ${reads[0].simpleName}.fq_trimmed.fq.gz
+            mv ${reads[1]} ${reads[1].simpleName}.fq_trimmed.fq.gz
+            """
+        }
     }
-
-
-
 }
 
 /**********
@@ -179,7 +192,7 @@ process '1B_trim' {
 process '1C_post_fastqc' {
     tag "$name"
     label 'big'
-    publishDir "${params.outdir}/fastqc2", mode: 'copy',
+    publishDir "${params.outdir}/post_fastqc", mode: 'copy',
         saveAs: { filename ->
                       filename.indexOf(".zip") > 0 ? "zips/$filename" : "$filename"
                 }
@@ -189,7 +202,10 @@ process '1C_post_fastqc' {
 
     output:
     file '*_fastqc.{zip,html}' into ch_fastqc2_results_for_multiqc
-
+     
+    when:
+    params.trim == "trim"
+ 
     script:
     """
     fastqc --quiet --threads ${task.cpus} $reads
@@ -230,7 +246,7 @@ process '2A_prepare_bisulfite_genome' {
 process '2B_mapping_bismark' {
   tag "$name"
   label 'bismark'
-  publishDir "${params.outdir}/bismark_align"
+  publishDir "${params.outdir}/bismark_align", mode: 'copy'
 
   input:
       file genomeDir from genome_dir_ch
@@ -253,6 +269,9 @@ process '2B_mapping_bismark' {
        $aligner $hisat2 \\
        --multicore ${task.cpus / 4} \\
        $input
+  ## can use sorted bam to reduce size, but for paired end data, need to use read name sorting, which doesn't really reduce size
+  # samtools sort -n -o ${name}_sorted.bam -@ ${task.cpus} ${name}*bismark*.bam
+  # rm ${name}*bismark*.bam 
   """
 }
 
@@ -274,7 +293,11 @@ process '2C_bismark_methXtract' {
     set val(name), file("*.M-bias.txt") into ch_bismark_mbias_for_bismark_report, ch_bismark_mbias_for_multiqc, ch_bismark_mbias_for_bismark_summary
     set val(name), file("*.cov.gz") into coverage_bismark_ch, covgz_for_Rsummary
     set val(name), file("*.bedGraph.gz") into bedgraph_bismark_ch
-    file '*.{png,gz}'
+    // file '*.{png,gz}'
+    file '*.bedGraph.gz'
+    file '*.cov.gz'
+    file '*.CpG_report.txt.gz'
+    file '*.txt'
 
     script:
     // cytosine_report = params.cytosine_report ? "--cytosine_report --genome_folder ${index} " : ''
@@ -352,8 +375,9 @@ process '3A_multiqc' {
     publishDir "${params.outdir}/MultiQC", mode: 'copy'
 
     input:
-    file ('fastqc/*') from ch_fastqc_results_for_multiqc.collect().ifEmpty([])
-    file ('fastqc2/*') from ch_fastqc2_results_for_multiqc.collect().ifEmpty([])
+    // only use fastqc from trimmed reads
+    // file ('fastqc/*') from ch_fastqc_results_for_multiqc.collect().ifEmpty([])
+    file ('post_fastqc/*') from ch_fastqc2_results_for_multiqc.collect().ifEmpty([])
     file ('trim/*') from ch_trimgalore_results_for_multiqc.collect().ifEmpty([])
     file ('bismark_align/*') from ch_bismark_align_log_for_multiqc.collect().ifEmpty([])
     file ('bismark_methylation/*') from ch_bismark_splitting_report_for_multiqc.collect().ifEmpty([])
@@ -385,7 +409,7 @@ process '4A_faidx' {
     file "chrom.sizes" into chr_size_ch
 
     script:
-    if( fasta.extension == 'fa|fasta' ) {
+    if( fasta.extension ==~ /fa|fasta/ ) {
             """
             samtools faidx ${fasta}
             cut -f1,2 ${fasta}.fai | sed -e 's/\\(^[0-9XY]\\)/chr\\1/' -e 's/^MT/chrM/' | grep '^chr' > chrom.sizes
@@ -434,7 +458,7 @@ process '4B_toBigWig' {
  */
 process '4c_toRSummary' {
     tag "summaryplot"
-    label 'big'
+    label 'bismark'
     publishDir "${params.outdir}/summaryplot", mode: 'copy'
 
     input:
@@ -445,7 +469,7 @@ process '4c_toRSummary' {
     
     output:
     file "*.png"
-    file "*.RData"
+    // file "*.RData"
 
     script:
     """
