@@ -1,4 +1,6 @@
 # RRBS_nf
+[![DOI](https://zenodo.org/badge/243173536.svg)](https://zenodo.org/badge/latestdoi/243173536)
+
 Nextflow pipeline for analyzing RRBS data from NuGen Ovation library
 
 ## Analysis steps
