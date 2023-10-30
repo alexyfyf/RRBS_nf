@@ -11,23 +11,26 @@ args <- commandArgs(trailingOnly=TRUE)
 print(args)
 ## print(lns)
 
-if (!require(tidyverse)) {
-  install.packages(tidyverse)
+if (!require('tidyverse')) {
+  install.packages('tidyverse')
 }
-if (!require(ggridges)) {
-  install.packages(ggridges)
+if (!require('data.table')) {
+  install.packages('data.table')
 }
-if (!require(methylKit)) {
-  BiocManager::install(methylKit)
+if (!require('ggridges')) {
+  install.packages('ggridges')
 }
-if (!require(ChIPseeker)) {
-  BiocManager::install(ChIPseeker)
+if (!require("methylKit")) {
+  BiocManager::install('methylKit')
 }
-if (!require(annotatr)) {
-  BiocManager::install(annotatr)
+if (!require("ChIPseeker")) {
+  BiocManager::install('ChIPseeker')
 }
-if (!require(R.utils)) {
-  install.packages(R.utils)
+if (!require("annotatr")) {
+  BiocManager::install('annotatr')
+}
+if (!require("R.utils")) {
+  install.packages('R.utils')
 }
 
 
@@ -47,7 +50,7 @@ if (!require(R.utils)) {
 ## currently need at least 2 groups
 ## if paired-end data, only use R1 fastq file
 samplesheet <- read.csv(args[1], header = FALSE)
-group <- samplesheet$V2
+group <- factor(samplesheet$V2)
 cond <- levels(group)
 
 # samplesheet
@@ -82,17 +85,18 @@ qclist <- lapply(1:lns, function(x){
 
 # saveRDS(qclist,"qclist.rds")
 
-
-Reduce(rbind, qclist) %>% mutate(group=factor(group)) %>%
+rbindlist(qclist) %>% mutate(group=factor(group)) %>%
   ggplot(aes(x = group, y = readnum / 1e6,
              fill = group)) +
   geom_boxplot() + ylim(0, NA) +
   stat_summary(fun=mean, colour="darkred", geom="text", show.legend = FALSE,
-               vjust=-0.7, aes( label=round(..y.., digits=1)))
+               vjust=-0.7, aes( label=round(..y.., digits=1))) +
+  ylab('Number of reads (millions)')
 
 print("Save plot for aligned read numbers")
 ggsave("qc_aligned_readnum.png")
 
+rm(qclist)
 
 ## CpGs covered
 
@@ -104,22 +108,23 @@ cpgslist <- lapply(1:lns, function(x){
 })
 # saveRDS(cpgslist, "cpgslist.rds")
 
-Reduce(rbind, cpgslist) %>% mutate(group=factor(group)) %>%
+rbindlist(cpgslist) %>% mutate(group=factor(group)) %>%
   ggplot(aes(x=group, y=cpg_1x/1e6, fill=group))+
   geom_boxplot() + ylim(0, NA) +
   stat_summary(fun=mean, colour="darkred", geom="text", show.legend = FALSE,
-               vjust=-0.7, aes( label=round(..y.., digits=1)))
+               vjust=-0.7, aes( label=round(..y.., digits=1))) +
+  ylab('Number of CpGs (millions)')
 
 print("Save plot for number of CpGs covered at 1x")
 ggsave("CpG_1x.png")
-
+rm(cpgslist)
 
 ## CpGs at 10x
 covlist <- lapply(1:lns, function(x){
   path <- list.files(dirs[x], pattern = "*.cov.gz")
 
   cov <- methRead(paste0(dirs[x], path) %>% as.list(),
-                  assembly="mm10",mincov = 10,
+                  assembly="mm10", mincov = 10,
                   pipeline = "bismarkCoverage",
                   sample.id=as.character(1:length(path)) %>% as.list(),
                   treatment=rep(1, length(path)))
@@ -131,32 +136,37 @@ cpg10xlist <- lapply(1:lns, function(x){
                        group=basename(dirs[x]))
 })
 
-Reduce(rbind, cpg10xlist) %>% mutate(group=factor(group)) %>%
+rbindlist(cpg10xlist) %>% mutate(group=factor(group)) %>%
   ggplot(aes(x=group, y=cpg_10x/1e6, fill=group))+
   geom_boxplot() + ylim(0, NA) +
   stat_summary(fun=mean, colour="darkred", geom="text", show.legend = FALSE,
-               vjust=-0.7, aes( label=round(..y.., digits=1)))
+               vjust=-0.7, aes( label=round(..y.., digits=1))) +
+  ylab('Number of CpGs > 10x coverage (millions)')
 
 print("Save plot for number of CpGs covered at 10x")
 ggsave("CpG_10x.png")
 
-## ridges plot
+## ridges plot (use average rather than whole dataset)
+
 histlist <- lapply(1:lns, function(x){
-  cov <- lapply(covlist[[x]],function(m) {
-    getData(m) %>% mutate(sampleid=m@sample.id)}) %>%
-    Reduce(rbind,.) %>%
-    mutate(group=basename(dirs[x]))
+  cov <- data.frame(
+    avg_cov = covlist[[x]] %>% 
+      methylKit::unite(destrand=FALSE, min.per.group = 1L) %>%
+    data.frame() %>%
+    dplyr::select(starts_with("coverage")) %>%
+    rowMeans(na.rm = T)) %>%
+    mutate(group = basename(dirs[x]))
 })
 
-Reduce(rbind, histlist) %>% dplyr::select(coverage, sampleid,group) %>%
-  ggplot(aes(x=log10(coverage),y=as.factor(group),
+rbindlist(histlist) %>% 
+  ggplot(aes(x=log10(avg_cov), y=as.factor(group),
              fill=factor(stat(quantile))))+
   stat_density_ridges(
     geom = "density_ridges_gradient", calc_ecdf = TRUE,
     quantiles = 4, quantile_lines = TRUE,
     bandwidth = 0.025, from = 1
   ) +
-  scale_fill_viridis_d(name = "Quartiles")
+  scale_fill_viridis_d(name = "Quartiles") 
 
 print("Save plot: CpG coverage ridge plot")
 ggsave("ridge_plot.png")
@@ -164,13 +174,13 @@ ggsave("ridge_plot.png")
 ## regions of CpGs
 
 if (args[2]=="mm10") {
-  if (!require(TxDb.Mmusculus.UCSC.mm10.knownGene)) {
+  if (!require('TxDb.Mmusculus.UCSC.mm10.knownGene')) {
     BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
   }
   txdb <- TxDb.Mmusculus.UCSC.mm10.knownGene
   # orgdb <- "org.Mm.eg.db"
 } else if (args[2]=="hg38") {
-  if (!require(TxDb.Hsapiens.UCSC.hg38.knownGene)) {
+  if (!require('TxDb.Hsapiens.UCSC.hg38.knownGene')) {
     BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
   }
   txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
@@ -181,7 +191,7 @@ if (args[2]=="mm10") {
 ## currently need 2 samples in each group at least
 methlist <- lapply(1:lns, function(x){
   meth <- methylKit::unite(covlist[[x]],
-                             # min.per.group = 2L,
+                             # min.per.group = 2L, # if not provide, means CpG present in ALL samples
                              destrand=FALSE)
   # meth <- meth[data.frame(meth)$chr %in% c(1:19,"X","Y","MT"),]
 })
@@ -207,16 +217,18 @@ annostat <- lapply(1:lns, function(x) {
                    group=basename(dirs[x]))
 })
 
-annostat %>% Reduce(rbind,.) %>% mutate(group=factor(group)) %>%
+annostat %>% rbindlist() %>% mutate(group=factor(group)) %>%
   ggplot(aes(x = group, y = num/1e6, fill = region)) +
-  geom_bar(stat = "identity", position = "stack")
-
+  geom_bar(stat = "identity", position = "stack") +
+  ylab('Number of CpGs (millions)')
 
 print("Save plot annotation distribution using ChIPseeker")
 ggsave("AnnotationStat_stack.png")
 
-annostat %>% Reduce(rbind,.) %>% mutate(group=factor(group)) %>%
-  ggplot(aes(x = group, y = num/1e6, fill = region)) + geom_bar(stat = "identity", position = "fill")
+annostat %>% rbindlist() %>% mutate(group=factor(group)) %>%
+  ggplot(aes(x = group, y = num/1e6, fill = region)) + 
+  geom_bar(stat = "identity", position = "fill") +
+  ylab('Proportion of CpGs (%)')
 
 ggsave("AnnotationStat_pct.png")
 
@@ -246,14 +258,16 @@ cbind(p1k=gene1k, p2k=gene2k, p3k=gene3k) %>% data.frame() %>%
   ggplot(aes(x=group,y=num_gene, group=distance, col=distance)) +
   geom_point() +geom_line() +
   stat_summary(fun=mean, colour="darkred", geom="text", show.legend = FALSE,
-               vjust=-0.7, aes( label=round(..y.., digits=1)))
+               vjust=-0.7, aes( label=round(..y.., digits=1))) +
+  ylab('Number of genes')
 
 print("Save plot numbers of gene promoters covered using different TSS")
 ggsave("gene_covered_promoter.png")
 
 ## another way to annotate
 
-cpgs_info <- build_annotations(genome = args[2], annotations = paste(args[2],"cpgs",sep = "_"))
+cpgs_info <- build_annotations(genome = args[2], 
+                               annotations = paste(args[2], "cpgs", sep = "_"))
 
 cpgannolist <- lapply(1:lns, function(x){
   anno <- annotate_regions(regions = grlist[[x]],
@@ -269,14 +283,18 @@ cpgannostat <- lapply(1:lns, function(x){
                    group=basename(dirs[x]))
 })
 
-cpgannostat %>% Reduce(rbind,.) %>% mutate(group=factor(group)) %>%
-  ggplot(aes(x = group, y = num/1e6, fill = region)) + geom_bar(stat = "identity", position = "stack")
+cpgannostat %>% rbindlist() %>% mutate(group=factor(group)) %>%
+  ggplot(aes(x = group, y = num/1e6, fill = region)) + 
+  geom_bar(stat = "identity", position = "stack") +
+  ylab('Number of CpGs (millions)')
 
 print("Save plot CpG island annotation distribution using")
 ggsave("CpGStat_stack.png")
 
-cpgannostat %>% Reduce(rbind,.) %>% mutate(group=factor(group)) %>%
-  ggplot(aes(x = group, y = num/1e6, fill = region)) + geom_bar(stat = "identity", position = "fill")
+cpgannostat %>% rbindlist() %>% mutate(group=factor(group)) %>%
+  ggplot(aes(x = group, y = num/1e6, fill = region)) + 
+  geom_bar(stat = "identity", position = "fill") +
+  ylab('Proportion of CpGs (%)')
 
 ggsave("CpGStat_pct.png")
 
