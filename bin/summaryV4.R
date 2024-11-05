@@ -299,3 +299,5 @@ cpgannostat %>% rbindlist() %>% mutate(group=factor(group)) %>%
 ggsave("CpGStat_pct.png")
 
 save.image(file = "alldata.RData")
+
+sessionInfo()

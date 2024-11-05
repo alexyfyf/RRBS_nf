@@ -13,6 +13,8 @@
  * Define the default parameters
  */
 
+nextflow.enable.dsl=2
+
 params.genomedir  = "$baseDir/data/ref/"
 params.numet      = "$baseDir/bin/trimRRBSdiversityAdaptCustomers.py"
 params.reads      = "$baseDir/data/sample_R{1,2}.fq.gz"
@@ -24,9 +26,13 @@ params.samplesheet= "$baseDir/data/samplesheet.csv"
 params.library    = "nugen"
 params.clip3prime = 5
 params.trim       = "trim"
+params.single_end = true
+
+// Convert single_end to boolean
+// params.single_end = params.single_end.toBoolean()
 
 log.info """\
-R R B S -  N F    v 1.0
+R R B S -  N F    v 2.0
 ================================
 genomedir	: $params.genomedir
 species  	: $params.species
@@ -34,26 +40,36 @@ reads    	: $params.reads
 outdir   	: $params.outdir
 samplesheet	: $params.samplesheet
 library  	: $params.library
-trim            : $params.trim
+trim        : $params.trim
+single_end  : $params.single_end
 """
 
 /*
- *  Parse the input parameters
+ * Create a channel for input files
  */
+ch_reads = Channel
+    .fromFilePairs( params.reads, size: params.single_end ? 1 : 2 )
+    .ifEmpty { exit 1, "Cannot find any reads matching: ${params.reads}\nNB: Path needs to be enclosed in quotes!" }
 
-genomedir       = file(params.genomedir)
-numet           = file(params.numet)
-Channel
-        .fromPath( "${genomedir}/*.fa*" )
-        .set{ fasta_ch }
-samplesheet     = file(params.samplesheet)
-species         = Channel.from(params.species)
-summary         = file(params.summary)
+ch_reads_meta = Channel
+    .fromPath(params.reads)
+    .map { id, reads ->
+        def meta = [:]
+        meta.id = id
+        meta.single_end = params.single_end
+        meta.library = params.library
+        return [ meta, reads ]
+    }
+ch_genome = Channel.fromPath("${params.genomedir}/*.{fa,fasta,fna}")
+ch_numet = Channel.fromPath(params.numet)
+ch_samplesheet = Channel.fromPath(params.samplesheet)
+ch_summary = Channel.fromPath(params.summary)
+ch_species = Channel.value(params.species)
 
 /*
  * PART 0: Preparation
  */
-process '0A_get_software_versions' {
+process GET_SOFTWARE_VERSIONS {
     publishDir "${params.outdir}/pipeline_info", mode: 'copy'
     executor 'local'
 
@@ -64,44 +80,30 @@ process '0A_get_software_versions' {
     """
     echo "$workflow.manifest.version" &> v_ngi_methylseq.txt
     echo "$workflow.nextflow.version" &> v_nextflow.txt
-    bismark_genome_preparation --version &> v_bismark_genome_preparation.txt
     fastqc --version &> v_fastqc.txt
     cutadapt --version &> v_cutadapt.txt
     trim_galore --version &> v_trim_galore.txt
     bismark --version &> v_bismark.txt
+    bismark_genome_preparation --version &> v_bismark_genome_preparation.txt
     deduplicate_bismark --version &> v_deduplicate_bismark.txt
     bismark_methylation_extractor --version &> v_bismark_methylation_extractor.txt
     bismark2report --version &> v_bismark2report.txt
     bismark2summary --version &> v_bismark2summary.txt
     samtools --version &> v_samtools.txt
     hisat2 --version &> v_hisat2.txt
-    # bwa &> v_bwa.txt 2>&1 || true
-    # bwameth.py --version &> v_bwameth.txt
-    # picard MarkDuplicates --version &> v_picard_markdups.txt 2>&1 || true
-    # MethylDackel --version &> v_methyldackel.txt
-    # qualimap --version &> v_qualimap.txt || true
-    # preseq &> v_preseq.txt
+    bowtie2 --version &> v_bowtie2.txt
     multiqc --version &> v_multiqc.txt
-    # scrape_software_versions.py &> software_versions_mqc.yaml
+    R --version &> v_R.txt
     """
 }
-
-/*
- * Create a channel for input read files
- */
-Channel
-        .fromFilePairs( params.reads, size: params.single_end ? 1 : 2 )
-        .ifEmpty { exit 1, "Cannot find any reads matching: ${params.reads}\nNB: Path needs to be enclosed in quotes!\nIf this is single-end data, please specify --single_end on the command line." }
-        .into { raw_reads_fastqc_ch; raw_reads_trim_ch }
-
 
 /**********
  * PART 1: Preprocessing
  *
  * Process 1A: fastqc report for raw data
  */
-process '1A_pre_fastqc' {
-    tag "$name"
+process FASTQC {
+    tag "$meta.id"
     label 'big'
     publishDir "${params.outdir}/pre_fastqc", mode: 'copy',
         saveAs: { filename ->
@@ -109,10 +111,10 @@ process '1A_pre_fastqc' {
                 }
 
     input:
-    set val(name), file(reads) from raw_reads_fastqc_ch
+    tuple val(meta), path(reads)
 
     output:
-    file '*_fastqc.{zip,html}' into ch_fastqc_results_for_multiqc
+    path "*_fastqc.{zip,html}", emit: fastqc_results
 
     script:
     """
@@ -124,22 +126,26 @@ process '1A_pre_fastqc' {
 /*
  * Process 1B: 2-step triming for NuGen RRBS data
  */
-process '1B_trim' {
-    tag "$name"
+process TRIM {
+    tag "$meta.id"
     label 'big'
     publishDir "${params.outdir}/trim"
 
     input:
-    set val(name), file(reads) from raw_reads_trim_ch
-    file(trimpy) from numet
+    tuple val(meta), path(reads)
+    path numet
     // val(clip3) from params.clip3prime
 
     output:
-    set val(name), file('*.fq_trimmed.fq.gz') into clean_reads_bismark_ch, clean_reads_fastqc_ch
-    file('*report.txt') into ch_trimgalore_results_for_multiqc optional true
-    file('*.log') optional true 
+    tuple val(meta), path('*.fq_trimmed.fq.gz'), emit: trimmed_reads
+    path '*report.txt', emit: trim_reports
+    path '*.log', optional: true
      
     script:
+    // def single_end = params.single_end
+    // def library = params.library
+    // def trim = params.trim
+
     if( params.library == "nugen" ) {
     if( params.single_end ) {
             """
@@ -183,6 +189,22 @@ process '1B_trim' {
             mv ${reads[1]} ${reads[1].simpleName}.fq_trimmed.fq.gz
             """
         }
+    } else if (params.library == 'emseq' && params.trim == 'trim') {
+       if( params.single_end ) {
+            // --clip_R1 10 --clip_R2 10 --three_prime_clip_R1 10 --three_prime_clip_R2 10
+            """
+            ## leave to auto detection
+            trim_galore --clip_R1 10 --three_prime_clip_R1 10 $reads --cores ${task.cpus}
+            mv ${reads.simpleName}_trimmed.fq.gz ${reads.simpleName}.fq_trimmed.fq.gz
+            """
+        } else {
+            // --clip_R1 10 --clip_R2 10 --three_prime_clip_R1 10 --three_prime_clip_R2 10
+            """
+            trim_galore --paired --clip_R1 10 --clip_R2 10 --three_prime_clip_R1 10 --three_prime_clip_R2 10 $reads --cores ${task.cpus}
+            mv ${reads[0].simpleName}_val_1.fq.gz ${reads[0].simpleName}.fq_trimmed.fq.gz 
+            mv ${reads[1].simpleName}_val_2.fq.gz ${reads[1].simpleName}.fq_trimmed.fq.gz
+            """
+        } 
     }
 }
 
@@ -473,7 +495,34 @@ process '4c_toRSummary' {
 
     script:
     """
-    module load R
+    # module load R
     Rscript --vanilla $summary $samplesheet $species
     """
+}
+
+
+workflow {
+    // Main workflow
+    GET_SOFTWARE_VERSIONS()
+    
+    // Create metadata structure
+    ch_reads
+        .map { id, reads ->
+            def meta = [:]
+            meta.id = id
+            meta.single_end = params.single_end
+            return [ meta, reads ]
+        }
+        .set { ch_reads_meta }
+
+    // Run FastQC on raw reads
+    FASTQC(ch_reads_meta)
+
+    // Run trimming
+    TRIM(ch_reads_meta, ch_numet)
+
+    // Run post-trim FastQC
+    FASTQC(TRIM.out.trimmed_reads)
+
+    // Continue with other processes...
 }

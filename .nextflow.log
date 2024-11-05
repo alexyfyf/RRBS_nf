@@ -1,0 +1,773 @@
+Oct-03 12:17:50.530 [main] DEBUG nextflow.cli.Launcher - $> nextflow main.nf --reads 'realdata/fastq/*.fq.gz' --genomedir realdata/ref/ --species mm10 --samplesheet realdata/samplesheet.csv --single_end -profile slurm -resume
+Oct-03 12:17:50.662 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 20.04.1
+Oct-03 12:17:50.682 [main] INFO  nextflow.cli.CmdRun - Launching `main.nf` [hungry_rosalind] - revision: 501d8358a1
+Oct-03 12:17:50.703 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /fs03/ls25/feng.yan/software/RRBS_nf/nextflow.config
+Oct-03 12:17:50.704 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /fs03/ls25/feng.yan/software/RRBS_nf/nextflow.config
+Oct-03 12:17:50.723 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `slurm`
+Oct-03 12:17:51.148 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [slurm]
+Oct-03 12:17:51.189 [main] DEBUG nextflow.Session - Session uuid: a617e17a-55f8-4f9e-95c5-d4089f0ea739
+Oct-03 12:17:51.189 [main] DEBUG nextflow.Session - Run name: hungry_rosalind
+Oct-03 12:17:51.190 [main] DEBUG nextflow.Session - Executor pool size: 16
+Oct-03 12:17:51.200 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 20.04.1 build 5335
+  Created: 03-05-2020 19:37 UTC (04-05-2020 05:37 AEDT)
+  System: Linux 3.10.0-1127.18.2.el7.x86_64
+  Runtime: Groovy 2.5.8 on OpenJDK 64-Bit Server VM 1.8.0_152-release-1056-b12
+  Encoding: UTF-8 (UTF-8)
+  Process: 25763@m3i022 [127.0.0.1]
+  CPUs: 16 - Mem: 163.2 GB (153 GB) - Swap: 0 (0)
+Oct-03 12:17:51.237 [main] DEBUG nextflow.Session - Work-dir: /fs03/ls25/feng.yan/software/RRBS_nf/work [lustre]
+Oct-03 12:17:51.260 [main] DEBUG nextflow.Session - Observer factory: TowerFactory
+Oct-03 12:17:51.262 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Oct-03 12:17:51.585 [main] DEBUG nextflow.Session - Session start invoked
+Oct-03 12:17:51.847 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Oct-03 12:17:51.853 [main] DEBUG nextflow.Session - Workflow process names [dsl1]: 1C_post_fastqc, 2A_prepare_bisulfite_genome, 0A_get_software_versions, 4A_faidx, 2B_mapping_bismark, 1B_trim, 1A_pre_fastqc, 2D_bismark_report, 2C_bismark_methXtract, 3A_multiqc, 4B_toBigWig, 2E_bismark_summary, 4c_toRSummary
+Oct-03 12:17:51.858 [main] INFO  nextflow.Nextflow - R R B S -  N F    v 1.0
+================================
+genomedir	: realdata/ref/
+species  	: mm10
+reads    	: realdata/fastq/*.fq.gz
+outdir   	: results
+samplesheet	: realdata/samplesheet.csv
+library  	: nugen
+
+Oct-03 12:17:51.891 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /fs03/ls25/feng.yan/software/RRBS_nf/realdata/ref/; pattern: *.fa*; options: [:]
+Oct-03 12:17:51.968 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+Oct-03 12:17:51.969 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-03 12:17:51.972 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Oct-03 12:17:51.977 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=4; memory=8 GB; capacity=16; pollInterval=100ms; dumpInterval=5m
+Oct-03 12:17:52.037 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: realdata/fastq/; pattern: *.fq.gz; options: [:]
+Oct-03 12:17:52.075 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 1A_pre_fastqc
+Oct-03 12:17:52.076 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.076 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.081 [main] DEBUG nextflow.executor.Executor - [warm up] executor > slurm
+Oct-03 12:17:52.083 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'slurm' > capacity: 200; pollInterval: 30s; dumpInterval: 5m 
+Oct-03 12:17:52.084 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'slurm' > queue-stat-interval: 1m
+Oct-03 12:17:52.093 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 1B_trim
+Oct-03 12:17:52.094 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.094 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.100 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 1C_post_fastqc
+Oct-03 12:17:52.101 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.101 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.106 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:bismark` matches label `bismark` for process with name 2A_prepare_bisulfite_genome
+Oct-03 12:17:52.106 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.106 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.111 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:bismark` matches label `bismark` for process with name 2B_mapping_bismark
+Oct-03 12:17:52.112 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.113 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.124 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:bismark` matches label `bismark` for process with name 2C_bismark_methXtract
+Oct-03 12:17:52.125 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.125 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.136 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.136 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.144 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.145 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.152 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.152 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.155 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 4A_faidx
+Oct-03 12:17:52.155 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.155 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.164 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 4B_toBigWig
+Oct-03 12:17:52.164 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.164 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.167 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 4c_toRSummary
+Oct-03 12:17:52.167 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:17:52.167 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:17:52.169 [main] DEBUG nextflow.script.ScriptRunner - > Await termination 
+Oct-03 12:17:52.169 [main] DEBUG nextflow.Session - Session await
+Oct-03 12:17:52.205 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [42/fa7161] Cached process > 0A_get_software_versions
+Oct-03 12:17:52.207 [Actor Thread 4] INFO  nextflow.processor.TaskProcessor - [1d/390339] Cached process > 1A_pre_fastqc (subsample_2_1)
+Oct-03 12:17:52.207 [Actor Thread 7] INFO  nextflow.processor.TaskProcessor - [79/dbff5a] Cached process > 1A_pre_fastqc (subsample_3_1)
+Oct-03 12:17:52.285 [Actor Thread 2] DEBUG n.util.BlockingThreadExecutorFactory - Thread pool name=FileTransfer; maxThreads=48; maxQueueSize=144; keepAlive=1m
+Oct-03 12:17:52.870 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1A_pre_fastqc (subsample_1_1) > jobId: 16161414; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/bd/108a28d635e05d5c76b5275db269c1
+Oct-03 12:17:52.878 [Task submitter] INFO  nextflow.Session - [bd/108a28] Submitted process > 1A_pre_fastqc (subsample_1_1)
+Oct-03 12:17:52.935 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2A_prepare_bisulfite_genome (ref) > jobId: 16161415; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/61/77c15aca393a5458443ee5e481d2cd
+Oct-03 12:17:52.935 [Task submitter] INFO  nextflow.Session - [61/77c15a] Submitted process > 2A_prepare_bisulfite_genome (ref)
+Oct-03 12:17:52.990 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1B_trim (subsample_1_1) > jobId: 16161416; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/d9/2422f3f03f4ee5b8724631b1bd54d3
+Oct-03 12:17:52.990 [Task submitter] INFO  nextflow.Session - [d9/2422f3] Submitted process > 1B_trim (subsample_1_1)
+Oct-03 12:17:53.046 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1B_trim (subsample_3_1) > jobId: 16161417; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/5f/bed2df321085819da50874fa507479
+Oct-03 12:17:53.046 [Task submitter] INFO  nextflow.Session - [5f/bed2df] Submitted process > 1B_trim (subsample_3_1)
+Oct-03 12:17:53.104 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1B_trim (subsample_2_1) > jobId: 16161418; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/9d/d243c4d451ffe745a5e545732a3198
+Oct-03 12:17:53.105 [Task submitter] INFO  nextflow.Session - [9d/d243c4] Submitted process > 1B_trim (subsample_2_1)
+Oct-03 12:17:53.163 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly) > jobId: 16161419; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/39/31b3558f563d4b46b64f907e27b9d8
+Oct-03 12:17:53.164 [Task submitter] INFO  nextflow.Session - [39/31b355] Submitted process > 4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly)
+Oct-03 12:18:52.087 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161414; id: 2; name: 1A_pre_fastqc (subsample_1_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/bd/108a28d635e05d5c76b5275db269c1 started: 1601691502090; exited: 2020-10-03T02:18:45Z; ]
+Oct-03 12:19:22.089 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161419; id: 9; name: 4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/39/31b3558f563d4b46b64f907e27b9d8 started: 1601691532105; exited: 2020-10-03T02:19:04Z; ]
+Oct-03 12:22:52.138 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 1C_post_fastqc
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2B_mapping_bismark
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: genomeDir
+  port 1: (queue) OPEN  ; channel: -
+  port 2: (cntrl) -     ; channel: $
+
+[process] 2C_bismark_methXtract
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) OPEN  ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) OPEN  ; channel: fastqc2/*
+  port 2: (value) OPEN  ; channel: trim/*
+  port 3: (value) OPEN  ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 12:23:22.089 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 4 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161415; id: 8; name: 2A_prepare_bisulfite_genome (ref); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/61/77c15aca393a5458443ee5e481d2cd started: 1601691532101; exited: -; ]
+~> TaskHandler[jobId: 16161416; id: 5; name: 1B_trim (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/d9/2422f3f03f4ee5b8724631b1bd54d3 started: 1601691502779; exited: -; ]
+~> TaskHandler[jobId: 16161417; id: 6; name: 1B_trim (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/5f/bed2df321085819da50874fa507479 started: 1601691502782; exited: -; ]
+~> TaskHandler[jobId: 16161418; id: 7; name: 1B_trim (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/9d/d243c4d451ffe745a5e545732a3198 started: 1601691502784; exited: -; ]
+Oct-03 12:27:52.126 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 1C_post_fastqc
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2B_mapping_bismark
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: genomeDir
+  port 1: (queue) OPEN  ; channel: -
+  port 2: (cntrl) -     ; channel: $
+
+[process] 2C_bismark_methXtract
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) OPEN  ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) OPEN  ; channel: fastqc2/*
+  port 2: (value) OPEN  ; channel: trim/*
+  port 3: (value) OPEN  ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 12:28:22.093 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 4 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161415; id: 8; name: 2A_prepare_bisulfite_genome (ref); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/61/77c15aca393a5458443ee5e481d2cd started: 1601691532101; exited: -; ]
+~> TaskHandler[jobId: 16161416; id: 5; name: 1B_trim (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/d9/2422f3f03f4ee5b8724631b1bd54d3 started: 1601691502779; exited: -; ]
+~> TaskHandler[jobId: 16161417; id: 6; name: 1B_trim (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/5f/bed2df321085819da50874fa507479 started: 1601691502782; exited: -; ]
+~> TaskHandler[jobId: 16161418; id: 7; name: 1B_trim (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/9d/d243c4d451ffe745a5e545732a3198 started: 1601691502784; exited: -; ]
+Oct-03 12:32:52.127 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 1C_post_fastqc
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2B_mapping_bismark
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: genomeDir
+  port 1: (queue) OPEN  ; channel: -
+  port 2: (cntrl) -     ; channel: $
+
+[process] 2C_bismark_methXtract
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) OPEN  ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) OPEN  ; channel: fastqc2/*
+  port 2: (value) OPEN  ; channel: trim/*
+  port 3: (value) OPEN  ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 12:33:22.099 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 4 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161415; id: 8; name: 2A_prepare_bisulfite_genome (ref); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/61/77c15aca393a5458443ee5e481d2cd started: 1601691532101; exited: -; ]
+~> TaskHandler[jobId: 16161416; id: 5; name: 1B_trim (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/d9/2422f3f03f4ee5b8724631b1bd54d3 started: 1601691502779; exited: -; ]
+~> TaskHandler[jobId: 16161417; id: 6; name: 1B_trim (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/5f/bed2df321085819da50874fa507479 started: 1601691502782; exited: -; ]
+~> TaskHandler[jobId: 16161418; id: 7; name: 1B_trim (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/9d/d243c4d451ffe745a5e545732a3198 started: 1601691502784; exited: -; ]
+Oct-03 12:37:52.104 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161415; id: 8; name: 2A_prepare_bisulfite_genome (ref); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/61/77c15aca393a5458443ee5e481d2cd started: 1601691532101; exited: 2020-10-03T02:37:39Z; ]
+Oct-03 12:37:52.111 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161416; id: 5; name: 1B_trim (subsample_1_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/d9/2422f3f03f4ee5b8724631b1bd54d3 started: 1601691502779; exited: 2020-10-03T02:37:51Z; ]
+Oct-03 12:37:52.136 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161417; id: 6; name: 1B_trim (subsample_3_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/5f/bed2df321085819da50874fa507479 started: 1601691502782; exited: 2020-10-03T02:37:52Z; ]
+Oct-03 12:37:52.137 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 1C_post_fastqc
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2B_mapping_bismark
+  status=ACTIVE
+  port 0: (value) bound ; channel: genomeDir
+  port 1: (queue) OPEN  ; channel: -
+  port 2: (cntrl) -     ; channel: $
+
+[process] 2C_bismark_methXtract
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) OPEN  ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) OPEN  ; channel: fastqc2/*
+  port 2: (value) OPEN  ; channel: trim/*
+  port 3: (value) OPEN  ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 12:37:52.212 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1C_post_fastqc (subsample_1_1) > jobId: 16161425; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/75/a1ff993b4718676816681ad82fdd18
+Oct-03 12:37:52.213 [Task submitter] INFO  nextflow.Session - [75/a1ff99] Submitted process > 1C_post_fastqc (subsample_1_1)
+Oct-03 12:37:52.276 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2B_mapping_bismark (subsample_1_1) > jobId: 16161426; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0c/c72501cc80f4edc6fa43fa7e0a283f
+Oct-03 12:37:52.277 [Task submitter] INFO  nextflow.Session - [0c/c72501] Submitted process > 2B_mapping_bismark (subsample_1_1)
+Oct-03 12:37:53.527 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1C_post_fastqc (subsample_3_1) > jobId: 16161427; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/c2/9d7df24627e242b213e3d0ea79ac14
+Oct-03 12:37:53.529 [Task submitter] INFO  nextflow.Session - [c2/9d7df2] Submitted process > 1C_post_fastqc (subsample_3_1)
+Oct-03 12:37:53.580 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2B_mapping_bismark (subsample_3_1) > jobId: 16161428; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/ed/da79b2b4ce9de93bd60c93c68acd3b
+Oct-03 12:37:53.581 [Task submitter] INFO  nextflow.Session - [ed/da79b2] Submitted process > 2B_mapping_bismark (subsample_3_1)
+Oct-03 12:38:22.103 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 5 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161418; id: 7; name: 1B_trim (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/9d/d243c4d451ffe745a5e545732a3198 started: 1601691502784; exited: 2020-10-03T02:37:58Z; ]
+~> TaskHandler[jobId: 16161425; id: 11; name: 1C_post_fastqc (subsample_1_1); status: SUBMITTED; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/75/a1ff993b4718676816681ad82fdd18 started: -; exited: -; ]
+~> TaskHandler[jobId: 16161426; id: 10; name: 2B_mapping_bismark (subsample_1_1); status: SUBMITTED; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0c/c72501cc80f4edc6fa43fa7e0a283f started: -; exited: -; ]
+~> TaskHandler[jobId: 16161427; id: 13; name: 1C_post_fastqc (subsample_3_1); status: SUBMITTED; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/c2/9d7df24627e242b213e3d0ea79ac14 started: -; exited: -; ]
+~> TaskHandler[jobId: 16161428; id: 12; name: 2B_mapping_bismark (subsample_3_1); status: SUBMITTED; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/ed/da79b2b4ce9de93bd60c93c68acd3b started: -; exited: -; ]
+Oct-03 12:38:22.105 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161418; id: 7; name: 1B_trim (subsample_2_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/9d/d243c4d451ffe745a5e545732a3198 started: 1601691502784; exited: 2020-10-03T02:37:58Z; ]
+Oct-03 12:38:22.463 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1C_post_fastqc (subsample_2_1) > jobId: 16161429; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/66/ec8f9a448f00fa237aefdf398245aa
+Oct-03 12:38:22.464 [Task submitter] INFO  nextflow.Session - [66/ec8f9a] Submitted process > 1C_post_fastqc (subsample_2_1)
+Oct-03 12:38:22.524 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2B_mapping_bismark (subsample_2_1) > jobId: 16161430; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/f6/8f1c4e5c39a8508bc6cccdecedb558
+Oct-03 12:38:22.525 [Task submitter] INFO  nextflow.Session - [f6/8f1c4e] Submitted process > 2B_mapping_bismark (subsample_2_1)
+Oct-03 12:38:52.108 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161425; id: 11; name: 1C_post_fastqc (subsample_1_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/75/a1ff993b4718676816681ad82fdd18 started: 1601692702125; exited: 2020-10-03T02:38:39Z; ]
+Oct-03 12:38:52.127 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161427; id: 13; name: 1C_post_fastqc (subsample_3_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/c2/9d7df24627e242b213e3d0ea79ac14 started: 1601692702443; exited: 2020-10-03T02:38:40Z; ]
+Oct-03 12:39:24.171 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161429; id: 14; name: 1C_post_fastqc (subsample_2_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/66/ec8f9a448f00fa237aefdf398245aa started: 1601692732138; exited: 2020-10-03T02:39:09Z; ]
+Oct-03 12:42:52.142 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 2C_bismark_methXtract
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) OPEN  ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) bound ; channel: fastqc2/*
+  port 2: (value) bound ; channel: trim/*
+  port 3: (value) OPEN  ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 12:43:22.108 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 3 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161426; id: 10; name: 2B_mapping_bismark (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0c/c72501cc80f4edc6fa43fa7e0a283f started: 1601692702441; exited: -; ]
+~> TaskHandler[jobId: 16161428; id: 12; name: 2B_mapping_bismark (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/ed/da79b2b4ce9de93bd60c93c68acd3b started: 1601692702446; exited: -; ]
+~> TaskHandler[jobId: 16161430; id: 15; name: 2B_mapping_bismark (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/f6/8f1c4e5c39a8508bc6cccdecedb558 started: 1601692732140; exited: -; ]
+Oct-03 12:43:52.111 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161426; id: 10; name: 2B_mapping_bismark (subsample_1_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0c/c72501cc80f4edc6fa43fa7e0a283f started: 1601692702441; exited: 2020-10-03T02:43:44Z; ]
+Oct-03 12:43:52.153 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161428; id: 12; name: 2B_mapping_bismark (subsample_3_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/ed/da79b2b4ce9de93bd60c93c68acd3b started: 1601692702446; exited: 2020-10-03T02:43:45Z; ]
+Oct-03 12:43:52.230 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2C_bismark_methXtract (subsample_1_1) > jobId: 16161432; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/00/8edb443941bc76962357b340852be2
+Oct-03 12:43:52.231 [Task submitter] INFO  nextflow.Session - [00/8edb44] Submitted process > 2C_bismark_methXtract (subsample_1_1)
+Oct-03 12:43:52.292 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2C_bismark_methXtract (subsample_3_1) > jobId: 16161433; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0f/ac2cf5175c942b51ee4b9079cc0292
+Oct-03 12:43:52.294 [Task submitter] INFO  nextflow.Session - [0f/ac2cf5] Submitted process > 2C_bismark_methXtract (subsample_3_1)
+Oct-03 12:44:22.111 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161430; id: 15; name: 2B_mapping_bismark (subsample_2_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/f6/8f1c4e5c39a8508bc6cccdecedb558 started: 1601692732140; exited: 2020-10-03T02:43:59Z; ]
+Oct-03 12:44:22.196 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2C_bismark_methXtract (subsample_2_1) > jobId: 16161434; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/76/9929d0e50a1cc8406f42237269d12d
+Oct-03 12:44:22.197 [Task submitter] INFO  nextflow.Session - [76/9929d0] Submitted process > 2C_bismark_methXtract (subsample_2_1)
+Oct-03 12:47:52.236 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) bound ; channel: *
+  port 1: (value) bound ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) bound ; channel: fastqc2/*
+  port 2: (value) bound ; channel: trim/*
+  port 3: (value) bound ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 12:48:22.111 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 3 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161432; id: 16; name: 2C_bismark_methXtract (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/00/8edb443941bc76962357b340852be2 started: 1601693062128; exited: -; ]
+~> TaskHandler[jobId: 16161433; id: 17; name: 2C_bismark_methXtract (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0f/ac2cf5175c942b51ee4b9079cc0292 started: 1601693062130; exited: -; ]
+~> TaskHandler[jobId: 16161434; id: 18; name: 2C_bismark_methXtract (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/76/9929d0e50a1cc8406f42237269d12d started: 1601693092110; exited: -; ]
+Oct-03 12:52:52.331 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) bound ; channel: *
+  port 1: (value) bound ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) bound ; channel: fastqc2/*
+  port 2: (value) bound ; channel: trim/*
+  port 3: (value) bound ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 12:53:22.113 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 3 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161432; id: 16; name: 2C_bismark_methXtract (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/00/8edb443941bc76962357b340852be2 started: 1601693062128; exited: -; ]
+~> TaskHandler[jobId: 16161433; id: 17; name: 2C_bismark_methXtract (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0f/ac2cf5175c942b51ee4b9079cc0292 started: 1601693062130; exited: -; ]
+~> TaskHandler[jobId: 16161434; id: 18; name: 2C_bismark_methXtract (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/76/9929d0e50a1cc8406f42237269d12d started: 1601693092110; exited: -; ]
+Oct-03 12:57:52.415 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) bound ; channel: *
+  port 1: (value) bound ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) bound ; channel: fastqc2/*
+  port 2: (value) bound ; channel: trim/*
+  port 3: (value) bound ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 12:58:22.117 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 3 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161432; id: 16; name: 2C_bismark_methXtract (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/00/8edb443941bc76962357b340852be2 started: 1601693062128; exited: -; ]
+~> TaskHandler[jobId: 16161433; id: 17; name: 2C_bismark_methXtract (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0f/ac2cf5175c942b51ee4b9079cc0292 started: 1601693062130; exited: -; ]
+~> TaskHandler[jobId: 16161434; id: 18; name: 2C_bismark_methXtract (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/76/9929d0e50a1cc8406f42237269d12d started: 1601693092110; exited: -; ]
+Oct-03 13:02:52.495 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) bound ; channel: *
+  port 1: (value) bound ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) bound ; channel: fastqc2/*
+  port 2: (value) bound ; channel: trim/*
+  port 3: (value) bound ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 13:03:22.119 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 3 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161432; id: 16; name: 2C_bismark_methXtract (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/00/8edb443941bc76962357b340852be2 started: 1601693062128; exited: -; ]
+~> TaskHandler[jobId: 16161433; id: 17; name: 2C_bismark_methXtract (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0f/ac2cf5175c942b51ee4b9079cc0292 started: 1601693062130; exited: -; ]
+~> TaskHandler[jobId: 16161434; id: 18; name: 2C_bismark_methXtract (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/76/9929d0e50a1cc8406f42237269d12d started: 1601693092110; exited: -; ]
+Oct-03 13:07:52.589 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) bound ; channel: *
+  port 1: (value) bound ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) bound ; channel: fastqc2/*
+  port 2: (value) bound ; channel: trim/*
+  port 3: (value) bound ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 13:08:22.122 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 3 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161432; id: 16; name: 2C_bismark_methXtract (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/00/8edb443941bc76962357b340852be2 started: 1601693062128; exited: -; ]
+~> TaskHandler[jobId: 16161433; id: 17; name: 2C_bismark_methXtract (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0f/ac2cf5175c942b51ee4b9079cc0292 started: 1601693062130; exited: -; ]
+~> TaskHandler[jobId: 16161434; id: 18; name: 2C_bismark_methXtract (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/76/9929d0e50a1cc8406f42237269d12d started: 1601693092110; exited: -; ]
+Oct-03 13:12:52.688 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) bound ; channel: *
+  port 1: (value) bound ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) bound ; channel: fastqc2/*
+  port 2: (value) bound ; channel: trim/*
+  port 3: (value) bound ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 13:13:22.125 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 3 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161432; id: 16; name: 2C_bismark_methXtract (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/00/8edb443941bc76962357b340852be2 started: 1601693062128; exited: -; ]
+~> TaskHandler[jobId: 16161433; id: 17; name: 2C_bismark_methXtract (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0f/ac2cf5175c942b51ee4b9079cc0292 started: 1601693062130; exited: -; ]
+~> TaskHandler[jobId: 16161434; id: 18; name: 2C_bismark_methXtract (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/76/9929d0e50a1cc8406f42237269d12d started: 1601693092110; exited: -; ]
+Oct-03 13:17:52.764 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) bound ; channel: *
+  port 1: (value) bound ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) bound ; channel: fastqc2/*
+  port 2: (value) bound ; channel: trim/*
+  port 3: (value) bound ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 13:18:22.127 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 3 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161432; id: 16; name: 2C_bismark_methXtract (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/00/8edb443941bc76962357b340852be2 started: 1601693062128; exited: -; ]
+~> TaskHandler[jobId: 16161433; id: 17; name: 2C_bismark_methXtract (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0f/ac2cf5175c942b51ee4b9079cc0292 started: 1601693062130; exited: -; ]
+~> TaskHandler[jobId: 16161434; id: 18; name: 2C_bismark_methXtract (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/76/9929d0e50a1cc8406f42237269d12d started: 1601693092110; exited: -; ]
+Oct-03 13:22:52.899 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- The following nodes are still active:
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) bound ; channel: *
+  port 1: (value) bound ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) bound ; channel: fastqc/*
+  port 1: (value) bound ; channel: fastqc2/*
+  port 2: (value) bound ; channel: trim/*
+  port 3: (value) bound ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 13:23:22.175 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 3 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161432; id: 16; name: 2C_bismark_methXtract (subsample_1_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/00/8edb443941bc76962357b340852be2 started: 1601693062128; exited: -; ]
+~> TaskHandler[jobId: 16161433; id: 17; name: 2C_bismark_methXtract (subsample_3_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0f/ac2cf5175c942b51ee4b9079cc0292 started: 1601693062130; exited: -; ]
+~> TaskHandler[jobId: 16161434; id: 18; name: 2C_bismark_methXtract (subsample_2_1); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/76/9929d0e50a1cc8406f42237269d12d started: 1601693092110; exited: -; ]
+Oct-03 13:26:52.185 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161432; id: 16; name: 2C_bismark_methXtract (subsample_1_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/00/8edb443941bc76962357b340852be2 started: 1601693062128; exited: 2020-10-03T03:26:29Z; ]
+Oct-03 13:26:52.218 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161433; id: 17; name: 2C_bismark_methXtract (subsample_3_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/0f/ac2cf5175c942b51ee4b9079cc0292 started: 1601693062130; exited: 2020-10-03T03:26:38Z; ]
+Oct-03 13:26:53.541 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2D_bismark_report (subsample_1_1) > jobId: 16161547; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/c0/7a73a0f30a407f664c0f3e5e8d3564
+Oct-03 13:26:53.541 [Task submitter] INFO  nextflow.Session - [c0/7a73a0] Submitted process > 2D_bismark_report (subsample_1_1)
+Oct-03 13:26:53.644 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 4B_toBigWig (subsample_1_1) > jobId: 16161548; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/fe/54374e5ac303e9c8a2edf016f34981
+Oct-03 13:26:53.645 [Task submitter] INFO  nextflow.Session - [fe/54374e] Submitted process > 4B_toBigWig (subsample_1_1)
+Oct-03 13:26:53.695 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 4B_toBigWig (subsample_3_1) > jobId: 16161549; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/3e/62ef9212b171cf4cda5f5b62c3faa2
+Oct-03 13:26:53.697 [Task submitter] INFO  nextflow.Session - [3e/62ef92] Submitted process > 4B_toBigWig (subsample_3_1)
+Oct-03 13:26:53.750 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2D_bismark_report (subsample_3_1) > jobId: 16161550; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/bd/7c4abf423a240fda13884cd7e0917d
+Oct-03 13:26:53.752 [Task submitter] INFO  nextflow.Session - [bd/7c4abf] Submitted process > 2D_bismark_report (subsample_3_1)
+Oct-03 13:27:22.180 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161434; id: 18; name: 2C_bismark_methXtract (subsample_2_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/76/9929d0e50a1cc8406f42237269d12d started: 1601693092110; exited: 2020-10-03T03:27:21Z; ]
+Oct-03 13:27:22.956 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161548; id: 20; name: 4B_toBigWig (subsample_1_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/fe/54374e5ac303e9c8a2edf016f34981 started: 1601695642952; exited: 2020-10-03T03:27:06Z; ]
+Oct-03 13:27:22.973 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161549; id: 21; name: 4B_toBigWig (subsample_3_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/3e/62ef9212b171cf4cda5f5b62c3faa2 started: 1601695642969; exited: 2020-10-03T03:27:06Z; ]
+Oct-03 13:27:22.979 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 4B_toBigWig (subsample_2_1) > jobId: 16161551; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/d1/fb2a3c5df11657ccac3c47aad9d00e
+Oct-03 13:27:22.980 [Task submitter] INFO  nextflow.Session - [d1/fb2a3c] Submitted process > 4B_toBigWig (subsample_2_1)
+Oct-03 13:27:23.043 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2D_bismark_report (subsample_2_1) > jobId: 16161552; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/35/d0fc78d3c5b72558b702dda79e4fc3
+Oct-03 13:27:23.044 [Task submitter] INFO  nextflow.Session - [35/d0fc78] Submitted process > 2D_bismark_report (subsample_2_1)
+Oct-03 13:27:23.098 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 4c_toRSummary (summaryplot) > jobId: 16161553; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/c4/3f0a1c23443f88df9a3e54c99a34e0
+Oct-03 13:27:23.099 [Task submitter] INFO  nextflow.Session - [c4/3f0a1c] Submitted process > 4c_toRSummary (summaryplot)
+Oct-03 13:27:23.147 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2E_bismark_summary > jobId: 16161554; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/e3/803f18a5f99331f488d9a85b6db38e
+Oct-03 13:27:23.149 [Task submitter] INFO  nextflow.Session - [e3/803f18] Submitted process > 2E_bismark_summary
+Oct-03 13:27:23.221 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 3A_multiqc > jobId: 16161555; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/ff/ab7bc134ca05fecfb7224163b45785
+Oct-03 13:27:23.222 [Task submitter] INFO  nextflow.Session - [ff/ab7bc1] Submitted process > 3A_multiqc
+Oct-03 13:27:52.182 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161551; id: 23; name: 4B_toBigWig (subsample_2_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/d1/fb2a3c5df11657ccac3c47aad9d00e started: 1601695672179; exited: 2020-10-03T03:27:34Z; ]
+Oct-03 13:27:52.982 [Task monitor] DEBUG n.processor.TaskPollingMonitor - No more task to compute -- Execution may be stalled
+Oct-03 13:28:22.181 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor slurm > tasks to be completed: 6 -- submitted tasks are shown below
+~> TaskHandler[jobId: 16161547; id: 19; name: 2D_bismark_report (subsample_1_1); status: SUBMITTED; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/c0/7a73a0f30a407f664c0f3e5e8d3564 started: -; exited: 2020-10-03T03:27:55Z; ]
+~> TaskHandler[jobId: 16161550; id: 22; name: 2D_bismark_report (subsample_3_1); status: SUBMITTED; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/bd/7c4abf423a240fda13884cd7e0917d started: -; exited: 2020-10-03T03:27:55Z; ]
+~> TaskHandler[jobId: 16161552; id: 24; name: 2D_bismark_report (subsample_2_1); status: SUBMITTED; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/35/d0fc78d3c5b72558b702dda79e4fc3 started: -; exited: 2020-10-03T03:27:55Z; ]
+~> TaskHandler[jobId: 16161553; id: 26; name: 4c_toRSummary (summaryplot); status: RUNNING; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/c4/3f0a1c23443f88df9a3e54c99a34e0 started: 1601695672190; exited: -; ]
+~> TaskHandler[jobId: 16161554; id: 25; name: 2E_bismark_summary; status: SUBMITTED; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/e3/803f18a5f99331f488d9a85b6db38e started: -; exited: 2020-10-03T03:27:55Z; ]
+~> TaskHandler[jobId: 16161555; id: 27; name: 3A_multiqc; status: SUBMITTED; exit: -; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/ff/ab7bc134ca05fecfb7224163b45785 started: -; exited: -; ]
+Oct-03 13:28:22.185 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161547; id: 19; name: 2D_bismark_report (subsample_1_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/c0/7a73a0f30a407f664c0f3e5e8d3564 started: 1601695702182; exited: 2020-10-03T03:27:55Z; ]
+Oct-03 13:28:22.197 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161550; id: 22; name: 2D_bismark_report (subsample_3_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/bd/7c4abf423a240fda13884cd7e0917d started: 1601695702194; exited: 2020-10-03T03:27:55Z; ]
+Oct-03 13:28:22.208 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161552; id: 24; name: 2D_bismark_report (subsample_2_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/35/d0fc78d3c5b72558b702dda79e4fc3 started: 1601695702205; exited: 2020-10-03T03:27:55Z; ]
+Oct-03 13:28:22.221 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161554; id: 25; name: 2E_bismark_summary; status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/e3/803f18a5f99331f488d9a85b6db38e started: 1601695702218; exited: 2020-10-03T03:27:55Z; ]
+Oct-03 13:28:52.184 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161555; id: 27; name: 3A_multiqc; status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/ff/ab7bc134ca05fecfb7224163b45785 started: 1601695702240; exited: 2020-10-03T03:28:29Z; ]
+Oct-03 13:30:22.183 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161553; id: 26; name: 4c_toRSummary (summaryplot); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/c4/3f0a1c23443f88df9a3e54c99a34e0 started: 1601695672190; exited: 2020-10-03T03:30:06Z; ]
+Oct-03 13:30:22.209 [main] DEBUG nextflow.Session - Session await > all process finished
+Oct-03 13:30:22.227 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Oct-03 13:30:26.626 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=24; failedCount=0; ignoredCount=0; cachedCount=3; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=1d 23h 44m 22s; failedDuration=0ms; cachedDuration=4m 25s;loadCpus=0; loadMemory=0; peakRunning=5; peakCpus=52; peakMemory=160 GB; ]
+Oct-03 13:30:26.969 [main] DEBUG nextflow.CacheDB - Closing CacheDB done
+Oct-03 13:30:27.108 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

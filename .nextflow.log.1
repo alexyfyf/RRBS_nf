@@ -1,0 +1,186 @@
+Oct-03 12:02:30.399 [main] DEBUG nextflow.cli.Launcher - $> nextflow main.nf --reads 'realdata/fastq/*.fq.gz' --genomedir realdata/ref/ --species mm10 --samplesheet realdata/samplesheet.csv --single_end -profile slurm -resume
+Oct-03 12:02:30.581 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 20.04.1
+Oct-03 12:02:30.810 [main] INFO  nextflow.cli.CmdRun - Launching `main.nf` [soggy_stallman] - revision: f7e16f42f1
+Oct-03 12:02:30.842 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /fs03/ls25/feng.yan/software/RRBS_nf/nextflow.config
+Oct-03 12:02:30.842 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /fs03/ls25/feng.yan/software/RRBS_nf/nextflow.config
+Oct-03 12:02:30.897 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `slurm`
+Oct-03 12:02:31.461 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [slurm]
+Oct-03 12:02:31.502 [main] DEBUG nextflow.Session - Session uuid: a617e17a-55f8-4f9e-95c5-d4089f0ea739
+Oct-03 12:02:31.502 [main] DEBUG nextflow.Session - Run name: soggy_stallman
+Oct-03 12:02:31.503 [main] DEBUG nextflow.Session - Executor pool size: 16
+Oct-03 12:02:31.513 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 20.04.1 build 5335
+  Created: 03-05-2020 19:37 UTC (04-05-2020 05:37 AEDT)
+  System: Linux 3.10.0-1127.18.2.el7.x86_64
+  Runtime: Groovy 2.5.8 on OpenJDK 64-Bit Server VM 1.8.0_152-release-1056-b12
+  Encoding: UTF-8 (UTF-8)
+  Process: 24991@m3i022 [127.0.0.1]
+  CPUs: 16 - Mem: 163.2 GB (153.1 GB) - Swap: 0 (0)
+Oct-03 12:02:31.583 [main] DEBUG nextflow.Session - Work-dir: /fs03/ls25/feng.yan/software/RRBS_nf/work [lustre]
+Oct-03 12:02:31.622 [main] DEBUG nextflow.Session - Observer factory: TowerFactory
+Oct-03 12:02:31.624 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Oct-03 12:02:32.096 [main] DEBUG nextflow.Session - Session start invoked
+Oct-03 12:02:32.481 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Oct-03 12:02:32.487 [main] DEBUG nextflow.Session - Workflow process names [dsl1]: 1C_post_fastqc, 2A_prepare_bisulfite_genome, 0A_get_software_versions, 4A_faidx, 2B_mapping_bismark, 1B_trim, 1A_pre_fastqc, 2D_bismark_report, 2C_bismark_methXtract, 3A_multiqc, 4B_toBigWig, 2E_bismark_summary, 4c_toRSummary
+Oct-03 12:02:32.492 [main] INFO  nextflow.Nextflow - R R B S -  N F    v 1.0
+================================
+genomedir	: realdata/ref/
+species  	: mm10
+reads    	: realdata/fastq/*.fq.gz
+outdir   	: results
+samplesheet	: realdata/samplesheet.csv
+library  	: nugen
+
+Oct-03 12:02:32.531 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /fs03/ls25/feng.yan/software/RRBS_nf/realdata/ref/; pattern: *.fa*; options: [:]
+Oct-03 12:02:32.615 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+Oct-03 12:02:32.615 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Oct-03 12:02:32.619 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Oct-03 12:02:32.623 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=4; memory=8 GB; capacity=16; pollInterval=100ms; dumpInterval=5m
+Oct-03 12:02:32.683 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: realdata/fastq/; pattern: *.fq.gz; options: [:]
+Oct-03 12:02:32.794 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 1A_pre_fastqc
+Oct-03 12:02:32.797 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:32.797 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:32.825 [main] DEBUG nextflow.executor.Executor - [warm up] executor > slurm
+Oct-03 12:02:32.830 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'slurm' > capacity: 200; pollInterval: 30s; dumpInterval: 5m 
+Oct-03 12:02:32.832 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'slurm' > queue-stat-interval: 1m
+Oct-03 12:02:32.858 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 1B_trim
+Oct-03 12:02:32.861 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:32.861 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:32.875 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 1C_post_fastqc
+Oct-03 12:02:32.876 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:32.876 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:32.883 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:bismark` matches label `bismark` for process with name 2A_prepare_bisulfite_genome
+Oct-03 12:02:32.884 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:32.884 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:32.904 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:bismark` matches label `bismark` for process with name 2B_mapping_bismark
+Oct-03 12:02:32.905 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:32.907 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:32.937 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:bismark` matches label `bismark` for process with name 2C_bismark_methXtract
+Oct-03 12:02:32.937 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:32.937 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:32.971 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:32.972 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:32.998 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:32.998 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:33.021 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:33.021 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:33.027 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 4A_faidx
+Oct-03 12:02:33.028 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:33.028 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:33.045 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 4B_toBigWig
+Oct-03 12:02:33.045 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:33.045 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:33.048 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:big` matches label `big` for process with name 4c_toRSummary
+Oct-03 12:02:33.049 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+Oct-03 12:02:33.049 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+Oct-03 12:02:33.051 [main] DEBUG nextflow.script.ScriptRunner - > Await termination 
+Oct-03 12:02:33.051 [main] DEBUG nextflow.Session - Session await
+Oct-03 12:02:33.063 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Oct-03 12:02:33.067 [Task submitter] INFO  nextflow.Session - [42/fa7161] Submitted process > 0A_get_software_versions
+Oct-03 12:02:34.305 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1B_trim (subsample_3_1) > jobId: 16161401; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/c7/279d16c1548520761c0712eb75a1dd
+Oct-03 12:02:34.312 [Task submitter] INFO  nextflow.Session - [c7/279d16] Submitted process > 1B_trim (subsample_3_1)
+Oct-03 12:02:34.427 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1A_pre_fastqc (subsample_2_1) > jobId: 16161402; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/1d/390339635f5cda344de8690b09d256
+Oct-03 12:02:34.427 [Task submitter] INFO  nextflow.Session - [1d/390339] Submitted process > 1A_pre_fastqc (subsample_2_1)
+Oct-03 12:02:34.686 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1B_trim (subsample_1_1) > jobId: 16161403; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/4d/0c3f2f6b7a16f48043d29d5f0901fb
+Oct-03 12:02:34.686 [Task submitter] INFO  nextflow.Session - [4d/0c3f2f] Submitted process > 1B_trim (subsample_1_1)
+Oct-03 12:02:34.743 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1A_pre_fastqc (subsample_3_1) > jobId: 16161404; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/79/dbff5a8dfec1848e7995c1b4857043
+Oct-03 12:02:34.743 [Task submitter] INFO  nextflow.Session - [79/dbff5a] Submitted process > 1A_pre_fastqc (subsample_3_1)
+Oct-03 12:02:35.884 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 2A_prepare_bisulfite_genome (ref) > jobId: 16161405; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/07/010bc83c474205a70d2c2bf52a6ceb
+Oct-03 12:02:35.884 [Task submitter] INFO  nextflow.Session - [07/010bc8] Submitted process > 2A_prepare_bisulfite_genome (ref)
+Oct-03 12:02:35.932 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1A_pre_fastqc (subsample_1_1) > jobId: 16161406; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/a2/91a308ecbf72196e60a15f6203fe6e
+Oct-03 12:02:35.932 [Task submitter] INFO  nextflow.Session - [a2/91a308] Submitted process > 1A_pre_fastqc (subsample_1_1)
+Oct-03 12:02:35.994 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 1B_trim (subsample_2_1) > jobId: 16161407; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/08/d42519413067765f19e3cd7e59fa27
+Oct-03 12:02:35.995 [Task submitter] INFO  nextflow.Session - [08/d42519] Submitted process > 1B_trim (subsample_2_1)
+Oct-03 12:02:36.042 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly) > jobId: 16161408; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/54/dc45c9b42625099eabe876277a0711
+Oct-03 12:02:36.042 [Task submitter] INFO  nextflow.Session - [54/dc45c9] Submitted process > 4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly)
+Oct-03 12:02:58.849 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: 0A_get_software_versions; status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/42/fa7161d6155abb08e6f41dc2523059]
+Oct-03 12:02:58.880 [Task monitor] DEBUG n.util.BlockingThreadExecutorFactory - Thread pool name=FileTransfer; maxThreads=48; maxQueueSize=144; keepAlive=1m
+Oct-03 12:03:32.838 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161402; id: 4; name: 1A_pre_fastqc (subsample_2_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/1d/390339635f5cda344de8690b09d256 started: 1601690582898; exited: 2020-10-03T02:03:28Z; ]
+Oct-03 12:03:32.853 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161404; id: 3; name: 1A_pre_fastqc (subsample_3_1); status: COMPLETED; exit: 0; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/79/dbff5a8dfec1848e7995c1b4857043 started: 1601690582902; exited: 2020-10-03T02:03:28Z; ]
+Oct-03 12:03:32.873 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161408; id: 9; name: 4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly); status: COMPLETED; exit: 127; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/54/dc45c9b42625099eabe876277a0711 started: 1601690612868; exited: 2020-10-03T02:03:31Z; ]
+Oct-03 12:03:32.884 [Task monitor] INFO  nextflow.processor.TaskProcessor - [54/dc45c9] NOTE: Process `4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly)` terminated with an error exit status (127) -- Execution is retried (1)
+Oct-03 12:03:33.662 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process 4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly) > jobId: 16161409; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/36/a9580c95968ab0078d4986b39631a3
+Oct-03 12:03:33.663 [Task submitter] INFO  nextflow.Session - [36/a9580c] Re-submitted process > 4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly)
+Oct-03 12:04:02.839 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 16161409; id: 10; name: 4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly); status: COMPLETED; exit: 127; error: -; workDir: /fs03/ls25/feng.yan/software/RRBS_nf/work/36/a9580c95968ab0078d4986b39631a3 started: 1601690642836; exited: 2020-10-03T02:03:40Z; ]
+Oct-03 12:04:02.866 [Task monitor] ERROR nextflow.processor.TaskProcessor - Error executing process > '4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly)'
+
+Caused by:
+  Process `4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly)` terminated with an error exit status (127)
+
+Command executed:
+
+  null
+
+Command exit status:
+  127
+
+Command output:
+  (empty)
+
+Command error:
+  .command.sh: line 2: null: command not found
+
+Work dir:
+  /fs03/ls25/feng.yan/software/RRBS_nf/work/36/a9580c95968ab0078d4986b39631a3
+
+Tip: you can try to figure out what's wrong by changing to the process work dir and showing the script file named `.command.sh`
+Oct-03 12:04:02.869 [Task monitor] DEBUG nextflow.Session - Session aborted -- Cause: Process `4A_faidx (Mus_musculus.GRCm38.dna.primary_assembly)` terminated with an error exit status (127)
+Oct-03 12:04:02.885 [Task monitor] DEBUG nextflow.Session - The following nodes are still active:
+[process] 1C_post_fastqc
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2B_mapping_bismark
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: genomeDir
+  port 1: (queue) OPEN  ; channel: -
+  port 2: (cntrl) -     ; channel: $
+
+[process] 2C_bismark_methXtract
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2D_bismark_report
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 2E_bismark_summary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) OPEN  ; channel: *
+  port 2: (value) OPEN  ; channel: *
+  port 3: (value) OPEN  ; channel: *
+  port 4: (cntrl) -     ; channel: $
+
+[process] 3A_multiqc
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: fastqc/*
+  port 1: (value) OPEN  ; channel: fastqc2/*
+  port 2: (value) OPEN  ; channel: trim/*
+  port 3: (value) OPEN  ; channel: bismark_align/*
+  port 4: (value) OPEN  ; channel: bismark_methylation/*
+  port 5: (value) OPEN  ; channel: bismark_methylation/*
+  port 6: (cntrl) -     ; channel: $
+
+[process] 4B_toBigWig
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] 4c_toRSummary
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (value) bound ; channel: samplesheet
+  port 2: (queue) OPEN  ; channel: species
+  port 3: (value) bound ; channel: summary
+  port 4: (cntrl) -     ; channel: $
+
+Oct-03 12:04:02.887 [main] DEBUG nextflow.Session - Session await > all process finished
+Oct-03 12:04:02.889 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Oct-03 12:04:02.909 [main] WARN  n.processor.TaskPollingMonitor - Killing pending tasks (5)
+Oct-03 12:04:03.646 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=3; failedCount=2; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=1; abortedCount=5; succeedDuration=4m 25s; failedDuration=32ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=6; peakCpus=36; peakMemory=128 GB; ]
+Oct-03 12:04:03.724 [main] DEBUG nextflow.CacheDB - Closing CacheDB done
+Oct-03 12:04:03.777 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
